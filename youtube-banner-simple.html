@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jason Robinson - YouTube Banner</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-bg: #1a1a1a;
+            --secondary-bg: #2a2a2a;
+            --accent-color: #d4a574;
+            --text-primary: #ffffff;
+            --text-secondary: #b0b0b0;
+            --font-primary: 'Montserrat', sans-serif;
+            --font-display: 'Playfair Display', serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-primary);
+            background-color: var(--primary-bg);
+            color: var(--text-primary);
+            overflow: hidden;
+        }
+
+        .banner-container {
+            width: 2048px;
+            height: 1152px;
+            position: relative;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 50%, #1a1a1a 100%);
+            background-image: 
+                radial-gradient(circle at 25% 40%, rgba(212, 165, 116, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 75% 60%, rgba(212, 165, 116, 0.05) 0%, transparent 50%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .banner-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        .banner-content {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            align-items: center;
+            gap: 80px;
+            max-width: 1400px;
+            padding: 0 100px;
+        }
+
+        .headshot-container {
+            flex-shrink: 0;
+        }
+
+        .headshot-image {
+            width: 280px;
+            height: 280px;
+            border-radius: 50%;
+            border: 6px solid var(--accent-color);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6);
+            object-fit: cover;
+        }
+
+        .headshot-placeholder {
+            width: 280px;
+            height: 280px;
+            border-radius: 50%;
+            border: 6px solid var(--accent-color);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6);
+            background: linear-gradient(135deg, var(--secondary-bg) 0%, var(--primary-bg) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            color: var(--accent-color);
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-align: center;
+            line-height: 1.3;
+        }
+
+        .text-content {
+            flex: 1;
+            text-align: left;
+        }
+
+        .main-title {
+            font-family: var(--font-display);
+            font-size: 84px;
+            font-weight: 700;
+            letter-spacing: 6px;
+            margin-bottom: 20px;
+            color: var(--text-primary);
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8);
+            line-height: 1;
+        }
+
+        .description {
+            font-size: 32px;
+            font-weight: 300;
+            letter-spacing: 3px;
+            color: var(--text-secondary);
+            text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.8);
+            line-height: 1.2;
+        }
+
+        .decorative-elements {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+        }
+
+        .decorative-elements::before {
+            content: '';
+            position: absolute;
+            top: 80px;
+            left: 80px;
+            width: 120px;
+            height: 120px;
+            border: 2px solid var(--accent-color);
+            border-radius: 50%;
+            opacity: 0.15;
+        }
+
+        .decorative-elements::after {
+            content: '';
+            position: absolute;
+            bottom: 80px;
+            right: 80px;
+            width: 100px;
+            height: 100px;
+            border: 2px solid var(--accent-color);
+            border-radius: 50%;
+            opacity: 0.1;
+        }
+
+        .music-note {
+            position: absolute;
+            color: var(--accent-color);
+            opacity: 0.08;
+            font-size: 60px;
+            font-weight: bold;
+        }
+
+        .note-1 { top: 150px; left: 200px; transform: rotate(-15deg); }
+        .note-2 { top: 200px; right: 250px; transform: rotate(25deg); }
+        .note-3 { bottom: 180px; left: 150px; transform: rotate(-25deg); }
+        .note-4 { bottom: 220px; right: 200px; transform: rotate(15deg); }
+
+        /* Safe area guide (remove for final) */
+        .safe-area {
+            position: absolute;
+            border: 1px dashed rgba(255, 255, 255, 0.1);
+            pointer-events: none;
+        }
+
+        .tv-safe {
+            top: 96px;
+            left: 384px;
+            width: 1280px;
+            height: 960px;
+        }
+
+        .mobile-safe {
+            top: 465px;
+            left: 789px;
+            width: 470px;
+            height: 222px;
+        }
+    </style>
+</head>
+<body>
+    <div class="banner-container">
+        <div class="banner-overlay"></div>
+        
+        <div class="decorative-elements">
+            <div class="music-note note-1">♪</div>
+            <div class="music-note note-2">♫</div>
+            <div class="music-note note-3">♪</div>
+            <div class="music-note note-4">♫</div>
+        </div>
+
+        <!-- Safe area guides (remove for final) -->
+        <div class="safe-area tv-safe"></div>
+        <div class="safe-area mobile-safe"></div>
+
+        <div class="banner-content">
+            <div class="headshot-container">
+                <img src="images/headshot.jpg" alt="Jason Robinson" class="headshot-image">
+            </div>
+            
+            <div class="text-content">
+                <h1 class="main-title">JASON ROBINSON</h1>
+                <p class="description">MUSIC PRODUCER & COMPOSER</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
