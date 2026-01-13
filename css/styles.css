@@ -391,6 +391,8 @@ ul {
 .music-tracks-section {
     padding: var(--spacing-xl) 0;
     background-color: var(--secondary-bg);
+    position: relative;
+    z-index: 10;
 }
 
 .premiumbeat-link {
@@ -506,6 +508,8 @@ ul {
 .discography-section {
     padding: var(--spacing-xl) 0;
     background-color: var(--primary-bg);
+    position: relative;
+    z-index: 10;
 }
 
 .playlist-container {
@@ -593,6 +597,8 @@ ul {
 .portfolio-section {
     padding: var(--spacing-xl) 0;
     background-color: var(--secondary-bg);
+    position: relative;
+    z-index: 10;
 }
 
 .section-title {
@@ -672,6 +678,8 @@ ul {
     padding: var(--spacing-xl) 0;
     background-color: var(--primary-bg);
     text-align: center;
+    position: relative;
+    z-index: 10;
 }
 
 .contact-content {
