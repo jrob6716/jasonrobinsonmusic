@@ -20,6 +20,7 @@
     /* Typography */
     --font-primary: 'Montserrat', sans-serif;
     --font-display: 'Playfair Display', serif;
+    --font-futuristic: 'Orbitron', sans-serif;
     
     /* Spacing */
     --spacing-xs: 0.5rem;
@@ -45,6 +46,27 @@ body {
     color: var(--text-primary);
     line-height: 1.6;
     overflow-x: hidden;
+    position: relative;
+    isolation: isolate;
+}
+
+body::before {
+    content: '';
+    position: fixed;
+    inset: -24px;
+    z-index: -2;
+    background: url('../images/site-background.jpg') center / cover no-repeat;
+    filter: blur(10px);
+    transform: scale(1.03);
+}
+
+body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background: rgba(7, 12, 15, 0.72);
+    pointer-events: none;
 }
 
 img {
@@ -185,11 +207,7 @@ ul {
     align-items: center;
     justify-content: center;
     text-align: center;
-    background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
-    background-image: url('../images/hero-bg.jpg');
-    background-size: cover;
-    background-position: center;
-    background-attachment: fixed;
+    background: transparent;
 }
 
 .hero-overlay {
@@ -198,7 +216,7 @@ ul {
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0, 0, 0, 0.6);
+    background: rgba(0, 0, 0, 0.48);
 }
 
 .hero-content {
@@ -210,28 +228,33 @@ ul {
 }
 
 .hero-headshot {
-    margin-bottom: var(--spacing-md);
-    display: flex;
-    justify-content: center;
-}
-
-.headshot-image {
     width: 200px;
     height: 200px;
-    border-radius: 50%;
-    object-fit: cover;
+    margin: 0 auto var(--spacing-md);
+    display: flex;
+    justify-content: center;
     border: 4px solid var(--accent-color);
+    border-radius: 50%;
+    overflow: hidden;
     box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
     transition: var(--transition-normal);
 }
 
-.headshot-image:hover {
+.headshot-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 43%;
+    transform: scale(1.22);
+}
+
+.hero-headshot:hover {
     transform: scale(1.05);
     box-shadow: 0 12px 40px rgba(212, 165, 116, 0.3);
 }
 
 .hero-title {
-    font-family: var(--font-display);
+    font-family: var(--font-futuristic);
     font-size: clamp(3rem, 8vw, 6rem);
     font-weight: 700;
     letter-spacing: 4px;
@@ -287,7 +310,7 @@ ul {
 
 .reels-section {
     padding: var(--spacing-xl) 0;
-    background-color: var(--primary-bg);
+    background-color: rgba(17, 22, 25, 0.78);
 }
 
 .section-intro {
@@ -390,7 +413,7 @@ ul {
 
 .music-tracks-section {
     padding: var(--spacing-xl) 0;
-    background-color: var(--secondary-bg);
+    background-color: rgba(34, 38, 40, 0.76);
     position: relative;
     z-index: 10;
 }
@@ -507,7 +530,7 @@ ul {
 
 .discography-section {
     padding: var(--spacing-xl) 0;
-    background-color: var(--primary-bg);
+    background-color: rgba(17, 22, 25, 0.78);
     position: relative;
     z-index: 10;
 }
@@ -596,7 +619,7 @@ ul {
 
 .portfolio-section {
     padding: var(--spacing-xl) 0;
-    background-color: var(--secondary-bg);
+    background-color: rgba(34, 38, 40, 0.76);
     position: relative;
     z-index: 10;
 }
@@ -608,6 +631,14 @@ ul {
     margin-bottom: var(--spacing-xl);
     color: var(--text-primary);
     letter-spacing: 2px;
+}
+
+#discography .section-title,
+#music-tracks .section-title,
+#portfolio .section-title,
+#contact .section-title {
+    font-family: var(--font-futuristic);
+    font-weight: 700;
 }
 
 .project-item {
@@ -676,7 +707,7 @@ ul {
 
 .contact-section {
     padding: var(--spacing-xl) 0;
-    background-color: var(--primary-bg);
+    background-color: rgba(17, 22, 25, 0.78);
     text-align: center;
     position: relative;
     z-index: 10;
@@ -740,7 +771,7 @@ ul {
 
 .footer {
     padding: var(--spacing-md) 0;
-    background-color: #0a0a0a;
+    background-color: rgba(5, 8, 10, 0.9);
     text-align: center;
     border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
@@ -865,7 +896,7 @@ ul {
         --spacing-xl: 3rem;
     }
     
-    .headshot-image {
+    .hero-headshot {
         width: 150px;
         height: 150px;
         border-width: 3px;
