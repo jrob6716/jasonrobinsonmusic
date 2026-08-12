@@ -92,7 +92,7 @@ const observer = new IntersectionObserver((entries) => {
 }, observerOptions);
 
 // Observe elements for animation
-const animateElements = document.querySelectorAll('.reel-item, .project-item, .contact-content');
+const animateElements = document.querySelectorAll('.reel-item, .sync-video-card, .contact-content');
 animateElements.forEach(el => {
     el.style.opacity = '0';
     el.style.transform = 'translateY(30px)';

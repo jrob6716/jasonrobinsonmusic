@@ -641,24 +641,14 @@ ul {
     font-weight: 700;
 }
 
-.project-item {
+.sync-video-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: var(--spacing-lg);
-    margin-bottom: var(--spacing-xl);
-    align-items: center;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--spacing-lg) var(--spacing-md);
 }
 
-.project-item.reverse {
-    direction: rtl;
-}
-
-.project-item.reverse > * {
-    direction: ltr;
-}
-
-.project-media {
-    position: relative;
+.sync-video-card {
+    min-width: 0;
 }
 
 .video-wrapper {
@@ -671,22 +661,21 @@ ul {
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
 }
 
-.video-wrapper iframe {
+.video-wrapper iframe,
+.video-wrapper video {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-}
-
-.project-info {
-    padding: var(--spacing-md);
+    border: 0;
+    object-fit: contain;
 }
 
 .project-title {
-    font-size: 1.8rem;
+    font-size: 1.25rem;
     font-weight: 600;
-    margin-bottom: var(--spacing-sm);
+    margin-top: var(--spacing-sm);
     color: var(--text-primary);
 }
 
@@ -860,18 +849,8 @@ ul {
         font-size: 2rem;
     }
     
-    .project-item,
-    .project-item.reverse {
+    .sync-video-grid {
         grid-template-columns: 1fr;
-        direction: ltr;
-    }
-    
-    .project-item.reverse .project-media {
-        order: 1;
-    }
-    
-    .project-item.reverse .project-info {
-        order: 2;
     }
     
     .production-stats {
