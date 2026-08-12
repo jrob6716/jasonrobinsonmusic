@@ -767,9 +767,10 @@ ul {
 }
 
 .social-link svg {
-    width: 24px;
-    height: 24px;
-    fill: currentColor;
+    width: 26px;
+    height: 26px;
+    flex-shrink: 0;
+    overflow: visible;
 }
 
 .social-link:hover {
