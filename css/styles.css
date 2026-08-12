@@ -641,6 +641,21 @@ ul {
     font-weight: 700;
 }
 
+.portfolio-group + .portfolio-group {
+    margin-top: var(--spacing-xl);
+    padding-top: var(--spacing-lg);
+    border-top: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+.portfolio-group-title {
+    margin-bottom: var(--spacing-md);
+    color: var(--accent-color);
+    font-family: var(--font-futuristic);
+    font-size: clamp(1.75rem, 3vw, 2.5rem);
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+
 .sync-video-grid {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
