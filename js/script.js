@@ -234,9 +234,15 @@ if (awardTrigger && awardDialog) {
 
 const catalogPlayer = document.querySelector('[data-catalog-player]');
 
-if (catalogPlayer) {
+if (catalogPlayer && Array.isArray(window.musicCatalog)) {
+    const dropboxCatalogUrl = 'https://www.dropbox.com/scl/fo/aviu5ocm8b88pjhx2qwmi/ADe644YSV9D3_doFdfgQFnY?rlkey=h3wdz9jqjolwkn8jkal05mupm';
     const audio = catalogPlayer.querySelector('#catalog-audio');
-    const tracks = [...catalogPlayer.querySelectorAll('.catalog-track')];
+    const categoryTabs = catalogPlayer.querySelector('[data-category-tabs]');
+    const tracklist = catalogPlayer.querySelector('[data-tracklist]');
+    const searchInput = catalogPlayer.querySelector('[data-catalog-search]');
+    const categoryName = catalogPlayer.querySelector('[data-category-name]');
+    const visibleCount = catalogPlayer.querySelector('[data-visible-count]');
+    const emptyState = catalogPlayer.querySelector('[data-catalog-empty]');
     const playButton = catalogPlayer.querySelector('[data-play]');
     const previousButton = catalogPlayer.querySelector('[data-previous]');
     const nextButton = catalogPlayer.querySelector('[data-next]');
@@ -244,9 +250,27 @@ if (catalogPlayer) {
     const currentTime = catalogPlayer.querySelector('[data-current-time]');
     const duration = catalogPlayer.querySelector('[data-duration]');
     const trackTitle = catalogPlayer.querySelector('[data-track-title]');
+    const trackCategory = catalogPlayer.querySelector('[data-track-category]');
     const trackIndex = catalogPlayer.querySelector('[data-track-index]');
     const playerStatus = catalogPlayer.querySelector('[data-player-status]');
+    let selectedCategory = window.musicCatalog[0].category;
+    let tracks = [];
     let activeTrack = 0;
+
+    const cleanTitle = (filename) => filename
+        .replace(/\.(mp3|m4a|wav)$/i, '')
+        .replace(/^\d+\s+/, '')
+        .replace(/\s+REF(?:\s+JR)?\s*$/i, '')
+        .replace(/\s+2025\s+NEW\s*$/i, '')
+        .replace(/\s+/g, ' ')
+        .trim();
+
+    const catalogTracks = window.musicCatalog.flatMap(({ category, files }) => files.map((file) => ({
+        category,
+        file,
+        title: cleanTitle(file),
+        src: `${dropboxCatalogUrl}&preview=${encodeURIComponent(`${category}/${file}`)}&raw=1`
+    })));
 
     const formatTime = (seconds) => {
         if (!Number.isFinite(seconds)) return '0:00';
@@ -257,24 +281,30 @@ if (catalogPlayer) {
     const updatePlayState = () => {
         const isPlaying = !audio.paused;
         playButton.textContent = isPlaying ? 'Pause' : 'Play';
-        playButton.setAttribute('aria-label', `${isPlaying ? 'Pause' : 'Play'} ${tracks[activeTrack].dataset.title}`);
-        tracks.forEach((track, index) => {
+        const current = tracks[activeTrack];
+        playButton.disabled = !current;
+        previousButton.disabled = !current;
+        nextButton.disabled = !current;
+        playButton.setAttribute('aria-label', current ? `${isPlaying ? 'Pause' : 'Play'} ${current.title}` : 'No track selected');
+        tracklist.querySelectorAll('.catalog-track').forEach((track, index) => {
             track.querySelector('.track-action').textContent = index === activeTrack && isPlaying ? 'Pause' : 'Play';
         });
     };
 
     const loadTrack = (index, autoplay = false) => {
+        if (!tracks.length) return;
         activeTrack = (index + tracks.length) % tracks.length;
         const selectedTrack = tracks[activeTrack];
-        audio.src = selectedTrack.dataset.src;
-        trackTitle.textContent = selectedTrack.dataset.title;
+        audio.src = selectedTrack.src;
+        trackTitle.textContent = selectedTrack.title;
+        trackCategory.textContent = `${selectedTrack.category} / Dirtyfreqs Media`;
         trackIndex.textContent = `${String(activeTrack + 1).padStart(2, '0')} / ${String(tracks.length).padStart(2, '0')}`;
         currentTime.textContent = '0:00';
         duration.textContent = '0:00';
         progress.value = 0;
         playerStatus.textContent = '';
 
-        tracks.forEach((track, index) => {
+        tracklist.querySelectorAll('.catalog-track').forEach((track, index) => {
             const isActive = index === activeTrack;
             track.classList.toggle('is-active', isActive);
             track.setAttribute('aria-pressed', String(isActive));
@@ -290,17 +320,72 @@ if (catalogPlayer) {
         updatePlayState();
     };
 
-    tracks.forEach((track, index) => {
-        track.addEventListener('click', () => {
-            if (index === activeTrack) {
-                audio.paused ? audio.play() : audio.pause();
-            } else {
-                loadTrack(index, true);
-            }
+    const renderTracks = () => {
+        const query = searchInput.value.trim().toLowerCase();
+        tracks = catalogTracks.filter((track) => track.category === selectedCategory && track.title.toLowerCase().includes(query));
+        tracklist.replaceChildren();
+        categoryName.textContent = selectedCategory;
+        visibleCount.textContent = `${tracks.length} ${tracks.length === 1 ? 'track' : 'tracks'}`;
+        emptyState.hidden = tracks.length !== 0;
+
+        tracks.forEach((track, index) => {
+            const button = document.createElement('button');
+            button.className = 'catalog-track';
+            button.type = 'button';
+            button.setAttribute('role', 'listitem');
+            button.setAttribute('aria-pressed', 'false');
+            button.innerHTML = `<span class="track-order">${String(index + 1).padStart(2, '0')}</span><span class="track-name"></span><span class="track-action">Play</span>`;
+            button.querySelector('.track-name').textContent = track.title;
+            button.addEventListener('click', () => {
+                if (index === activeTrack && audio.src === track.src) {
+                    audio.paused ? audio.play() : audio.pause();
+                } else {
+                    loadTrack(index, true);
+                }
+            });
+            tracklist.appendChild(button);
         });
+
+        if (tracks.length) {
+            loadTrack(0);
+        } else {
+            audio.pause();
+            audio.removeAttribute('src');
+            trackTitle.textContent = 'No Results';
+            trackCategory.textContent = `${selectedCategory} / Dirtyfreqs Media`;
+            trackIndex.textContent = '00 / 00';
+            currentTime.textContent = '0:00';
+            duration.textContent = '0:00';
+            progress.value = 0;
+            updatePlayState();
+        }
+    };
+
+    window.musicCatalog.forEach(({ category, files }, index) => {
+        const button = document.createElement('button');
+        button.className = `catalog-category${index === 0 ? ' is-active' : ''}`;
+        button.type = 'button';
+        button.setAttribute('role', 'tab');
+        button.setAttribute('aria-selected', String(index === 0));
+        button.innerHTML = `<span></span><small>${String(files.length).padStart(2, '0')}</small>`;
+        button.querySelector('span').textContent = category;
+        button.addEventListener('click', () => {
+            selectedCategory = category;
+            searchInput.value = '';
+            categoryTabs.querySelectorAll('.catalog-category').forEach((tab) => {
+                const isActive = tab === button;
+                tab.classList.toggle('is-active', isActive);
+                tab.setAttribute('aria-selected', String(isActive));
+            });
+            renderTracks();
+        });
+        categoryTabs.appendChild(button);
     });
 
+    searchInput.addEventListener('input', renderTracks);
+
     playButton.addEventListener('click', () => {
+        if (!tracks.length) return;
         audio.paused ? audio.play() : audio.pause();
     });
     previousButton.addEventListener('click', () => loadTrack(activeTrack - 1, true));
@@ -324,7 +409,7 @@ if (catalogPlayer) {
         if (audio.duration) audio.currentTime = (progress.value / 100) * audio.duration;
     });
 
-    loadTrack(0);
+    renderTracks();
 }
 
 // Keyboard navigation for mobile menu
