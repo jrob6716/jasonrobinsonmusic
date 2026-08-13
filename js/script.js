@@ -92,7 +92,7 @@ const observer = new IntersectionObserver((entries) => {
 }, observerOptions);
 
 // Observe elements for animation
-const animateElements = document.querySelectorAll('.playlist-container, .stat-item, .sync-video-card, .contact-content');
+const animateElements = document.querySelectorAll('.playlist-container, .stat-item, .catalog-player, .sync-video-card, .contact-content');
 animateElements.forEach(el => {
     el.style.opacity = '0';
     el.style.transform = 'translateY(30px)';
@@ -194,6 +194,105 @@ document.body.insertBefore(skipLink, document.body.firstChild);
 
 const currentYear = document.getElementById('current-year');
 if (currentYear) currentYear.textContent = new Date().getFullYear();
+
+// ===================================
+// Music Catalog Player
+// ===================================
+
+const catalogPlayer = document.querySelector('[data-catalog-player]');
+
+if (catalogPlayer) {
+    const audio = catalogPlayer.querySelector('#catalog-audio');
+    const tracks = [...catalogPlayer.querySelectorAll('.catalog-track')];
+    const playButton = catalogPlayer.querySelector('[data-play]');
+    const previousButton = catalogPlayer.querySelector('[data-previous]');
+    const nextButton = catalogPlayer.querySelector('[data-next]');
+    const progress = catalogPlayer.querySelector('[data-progress]');
+    const currentTime = catalogPlayer.querySelector('[data-current-time]');
+    const duration = catalogPlayer.querySelector('[data-duration]');
+    const trackTitle = catalogPlayer.querySelector('[data-track-title]');
+    const trackIndex = catalogPlayer.querySelector('[data-track-index]');
+    const playerStatus = catalogPlayer.querySelector('[data-player-status]');
+    let activeTrack = 0;
+
+    const formatTime = (seconds) => {
+        if (!Number.isFinite(seconds)) return '0:00';
+        const minutes = Math.floor(seconds / 60);
+        return `${minutes}:${Math.floor(seconds % 60).toString().padStart(2, '0')}`;
+    };
+
+    const updatePlayState = () => {
+        const isPlaying = !audio.paused;
+        playButton.textContent = isPlaying ? 'Pause' : 'Play';
+        playButton.setAttribute('aria-label', `${isPlaying ? 'Pause' : 'Play'} ${tracks[activeTrack].dataset.title}`);
+        tracks.forEach((track, index) => {
+            track.querySelector('.track-action').textContent = index === activeTrack && isPlaying ? 'Pause' : 'Play';
+        });
+    };
+
+    const loadTrack = (index, autoplay = false) => {
+        activeTrack = (index + tracks.length) % tracks.length;
+        const selectedTrack = tracks[activeTrack];
+        audio.src = selectedTrack.dataset.src;
+        trackTitle.textContent = selectedTrack.dataset.title;
+        trackIndex.textContent = `${String(activeTrack + 1).padStart(2, '0')} / ${String(tracks.length).padStart(2, '0')}`;
+        currentTime.textContent = '0:00';
+        duration.textContent = '0:00';
+        progress.value = 0;
+        playerStatus.textContent = '';
+
+        tracks.forEach((track, index) => {
+            const isActive = index === activeTrack;
+            track.classList.toggle('is-active', isActive);
+            track.setAttribute('aria-pressed', String(isActive));
+        });
+
+        audio.load();
+        if (autoplay) {
+            audio.play().catch(() => {
+                playerStatus.textContent = 'Select play to begin listening.';
+                updatePlayState();
+            });
+        }
+        updatePlayState();
+    };
+
+    tracks.forEach((track, index) => {
+        track.addEventListener('click', () => {
+            if (index === activeTrack) {
+                audio.paused ? audio.play() : audio.pause();
+            } else {
+                loadTrack(index, true);
+            }
+        });
+    });
+
+    playButton.addEventListener('click', () => {
+        audio.paused ? audio.play() : audio.pause();
+    });
+    previousButton.addEventListener('click', () => loadTrack(activeTrack - 1, true));
+    nextButton.addEventListener('click', () => loadTrack(activeTrack + 1, true));
+
+    audio.addEventListener('play', updatePlayState);
+    audio.addEventListener('pause', updatePlayState);
+    audio.addEventListener('loadedmetadata', () => {
+        duration.textContent = formatTime(audio.duration);
+    });
+    audio.addEventListener('timeupdate', () => {
+        currentTime.textContent = formatTime(audio.currentTime);
+        progress.value = audio.duration ? (audio.currentTime / audio.duration) * 100 : 0;
+    });
+    audio.addEventListener('ended', () => loadTrack(activeTrack + 1, true));
+    audio.addEventListener('error', () => {
+        playerStatus.textContent = 'This track could not be loaded. Please try again.';
+        updatePlayState();
+    });
+    progress.addEventListener('input', () => {
+        if (audio.duration) audio.currentTime = (progress.value / 100) * audio.duration;
+    });
+
+    loadTrack(0);
+}
 
 // Keyboard navigation for mobile menu
 navToggle.addEventListener('keydown', (e) => {

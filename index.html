@@ -25,6 +25,7 @@
                 <!-- <li><a href="#reels" class="nav-link">Audio Reels</a></li> -->
                 <li><a href="#discography" class="nav-link">Production Credits</a></li>
                 <li><a href="#music-tracks" class="nav-link">Music for License</a></li>
+                <li><a href="#music-catalog" class="nav-link">Music Catalog</a></li>
                 <li><a href="#sync-portfolio" class="nav-link">Sync Portfolio</a></li>
                 <li><a href="#contact" class="nav-link">Contact</a></li>
             </ul>
@@ -156,11 +157,89 @@
         </div>
     </section>
 
+    <!-- Music Catalog Section -->
+    <section id="music-catalog" class="catalog-section">
+        <div class="container">
+            <div class="section-heading">
+                <span class="section-number">03</span>
+                <h2 class="section-title">Music <span>Catalog</span></h2>
+            </div>
+            <div class="section-intro catalog-intro">
+                <span class="wip-badge"><span aria-hidden="true"></span> Work in Progress</span>
+                <p class="intro-text">
+                    A growing selection of original songs and media-ready compositions. New music is being added regularly.
+                </p>
+            </div>
+
+            <div class="catalog-player" data-catalog-player>
+                <div class="catalog-current">
+                    <div class="catalog-art" aria-hidden="true">
+                        <span class="catalog-art-mark">JR</span>
+                        <span class="catalog-art-index" data-track-index>01 / 06</span>
+                    </div>
+                    <div class="catalog-now-playing">
+                        <span class="catalog-kicker">Now Playing</span>
+                        <h3 data-track-title>Forever Young</h3>
+                        <p>Jason Robinson / Original Catalog</p>
+                    </div>
+
+                    <audio id="catalog-audio" preload="metadata"></audio>
+
+                    <div class="catalog-controls">
+                        <button class="player-button player-skip" type="button" data-previous aria-label="Play previous track">←</button>
+                        <button class="player-button player-toggle" type="button" data-play aria-label="Play Forever Young">Play</button>
+                        <button class="player-button player-skip" type="button" data-next aria-label="Play next track">→</button>
+                    </div>
+
+                    <div class="catalog-timeline">
+                        <span data-current-time>0:00</span>
+                        <input type="range" min="0" max="100" value="0" step="0.1" data-progress aria-label="Track progress">
+                        <span data-duration>0:00</span>
+                    </div>
+                    <p class="catalog-status" data-player-status aria-live="polite"></p>
+                </div>
+
+                <div class="catalog-tracklist" role="list" aria-label="Music catalog tracks">
+                    <button class="catalog-track is-active" type="button" role="listitem" aria-pressed="true"
+                            data-title="Forever Young"
+                            data-src="https://www.dropbox.com/scl/fo/aviu5ocm8b88pjhx2qwmi/ADe644YSV9D3_doFdfgQFnY?rlkey=h3wdz9jqjolwkn8jkal05mupm&amp;preview=Forever%20young%20%202025%20NEW%20.mp3&amp;raw=1">
+                        <span class="track-order">01</span><span class="track-name">Forever Young</span><span class="track-action">Play</span>
+                    </button>
+                    <button class="catalog-track" type="button" role="listitem" aria-pressed="false"
+                            data-title="Prism"
+                            data-src="https://www.dropbox.com/scl/fo/aviu5ocm8b88pjhx2qwmi/ADe644YSV9D3_doFdfgQFnY?rlkey=h3wdz9jqjolwkn8jkal05mupm&amp;preview=Prism.mp3&amp;raw=1">
+                        <span class="track-order">02</span><span class="track-name">Prism</span><span class="track-action">Play</span>
+                    </button>
+                    <button class="catalog-track" type="button" role="listitem" aria-pressed="false"
+                            data-title="Cat and Mouse"
+                            data-src="https://www.dropbox.com/scl/fo/aviu5ocm8b88pjhx2qwmi/ADe644YSV9D3_doFdfgQFnY?rlkey=h3wdz9jqjolwkn8jkal05mupm&amp;preview=cat%20and%20mouse%20REF%20JR%20.mp3&amp;raw=1">
+                        <span class="track-order">03</span><span class="track-name">Cat and Mouse</span><span class="track-action">Play</span>
+                    </button>
+                    <button class="catalog-track" type="button" role="listitem" aria-pressed="false"
+                            data-title="See Me Falling"
+                            data-src="https://www.dropbox.com/scl/fo/aviu5ocm8b88pjhx2qwmi/ADe644YSV9D3_doFdfgQFnY?rlkey=h3wdz9jqjolwkn8jkal05mupm&amp;preview=See%20me%20Falling%20REF%20.mp3&amp;raw=1">
+                        <span class="track-order">04</span><span class="track-name">See Me Falling</span><span class="track-action">Play</span>
+                    </button>
+                    <button class="catalog-track" type="button" role="listitem" aria-pressed="false"
+                            data-title="Whoop Whoop"
+                            data-src="https://www.dropbox.com/scl/fo/aviu5ocm8b88pjhx2qwmi/ADe644YSV9D3_doFdfgQFnY?rlkey=h3wdz9jqjolwkn8jkal05mupm&amp;preview=Whoop%20whoop%20.mp3&amp;raw=1">
+                        <span class="track-order">05</span><span class="track-name">Whoop Whoop</span><span class="track-action">Play</span>
+                    </button>
+                    <button class="catalog-track" type="button" role="listitem" aria-pressed="false"
+                            data-title="Send Me an Angel Trailer"
+                            data-src="https://www.dropbox.com/scl/fo/aviu5ocm8b88pjhx2qwmi/ADe644YSV9D3_doFdfgQFnY?rlkey=h3wdz9jqjolwkn8jkal05mupm&amp;preview=Send%20Me%20an%20Angel%20Trailer.mp3&amp;raw=1">
+                        <span class="track-order">06</span><span class="track-name">Send Me an Angel Trailer</span><span class="track-action">Play</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Portfolio Section -->
     <section id="sync-portfolio" class="portfolio-section">
         <div class="container">
             <div class="section-heading">
-                <span class="section-number">03</span>
+                <span class="section-number">04</span>
                 <h2 class="section-title">Sync Music <span>Production</span></h2>
             </div>
             <div class="section-intro">
@@ -263,7 +342,7 @@
     <section id="contact" class="contact-section">
         <div class="container">
             <div class="section-heading">
-                <span class="section-number">04</span>
+                <span class="section-number">05</span>
                 <h2 class="section-title">Get <span>In Touch</span></h2>
             </div>
             <div class="contact-content">
