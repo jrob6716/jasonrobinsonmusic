@@ -8,14 +8,14 @@
     <link rel="stylesheet" href="css/styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&family=Orbitron:wght@600;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <!-- Navigation Header -->
     <header class="header">
         <nav class="nav">
             <div class="nav-brand">
-                <a href="#home">JASON ROBINSON</a>
+                <a href="#home"><span>JR</span> Jason Robinson</a>
             </div>
             <button class="nav-toggle" aria-label="Toggle navigation">
                 <span class="hamburger"></span>
@@ -33,17 +33,26 @@
 
     <!-- Hero Section -->
     <section id="home" class="hero">
-        <div class="hero-overlay"></div>
-        <div class="hero-content">
-            <div class="hero-headshot">
-                <img src="images/headshot.jpg" alt="Jason Robinson - Music Producer & Composer" class="headshot-image">
+        <div class="hero-backdrop" aria-hidden="true"></div>
+        <div class="hero-content container">
+            <div class="hero-copy">
+                <p class="hero-index">Independent music / Los Angeles</p>
+                <h1 class="hero-title"><span>Jason</span><span>Robinson</span></h1>
+                <div class="hero-details">
+                    <div>
+                        <p class="hero-subtitle">Grammy Award Winning</p>
+                        <p class="hero-description">Music Producer &amp; Media Composer</p>
+                    </div>
+                    <p class="hero-location">Los Angeles<br>Orange County</p>
+                </div>
+                <a href="#discography" class="cta-button">Explore the work <span aria-hidden="true">↘</span></a>
             </div>
-            <h1 class="hero-title">JASON ROBINSON</h1>
-            <p class="hero-subtitle">GRAMMY AWARD WINNING</p>
-            <p class="hero-description">MUSIC PRODUCER & MEDIA COMPOSER</p>
-            <p class="hero-location">Los Angeles | Orange County</p>
-            <a href="#discography" class="cta-button">Click to Listen</a>
+            <figure class="hero-headshot">
+                <img src="images/headshot.jpg" alt="Jason Robinson - Music Producer and media composer" class="headshot-image">
+                <figcaption>Producer / Composer / Remixer</figcaption>
+            </figure>
         </div>
+        <a class="hero-scroll" href="#discography">Scroll to discover <span aria-hidden="true">↓</span></a>
     </section>
 
  
@@ -51,7 +60,10 @@
     <!-- Discography Section (Now First) -->
     <section id="discography" class="discography-section">
         <div class="container">
-            <h2 class="section-title">Production Credits & Discography</h2>
+            <div class="section-heading">
+                <span class="section-number">01</span>
+                <h2 class="section-title">Production Credits <span>&amp; Discography</span></h2>
+            </div>
             <div class="section-intro">
                 <p class="intro-text">
                     Explore my <strong>production credits</strong> and collaborations with various artists.
@@ -72,7 +84,7 @@
                     <iframe allow="autoplay *; encrypted-media *; fullscreen *; clipboard-write"
                             frameborder="0"
                             height="500"
-                            style="width:100%;max-width:660px;overflow:hidden;border-radius:10px;"
+                            style="width:100%;max-width:660px;overflow:hidden;"
                             sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-storage-access-by-user-activation allow-top-navigation-by-user-activation"
                             src="https://embed.music.apple.com/us/playlist/jason-robinson-production-credits/pl.u-d2Ak2sALZN4?app=music&itsct=music_box_player&itscg=30200&at=1000lHKX&ls=1&theme=auto">
                     </iframe>
@@ -109,7 +121,10 @@
     <!-- Music for License Section (Now Second) -->
     <section id="music-tracks" class="music-tracks-section">
         <div class="container">
-            <h2 class="section-title">Music for License</h2>
+            <div class="section-heading">
+                <span class="section-number">02</span>
+                <h2 class="section-title">Music <span>for License</span></h2>
+            </div>
             <div class="section-intro">
                 <p class="intro-text">
                     Explore my collection of <strong>95 royalty-free music tracks</strong> available on PremiumBeat.
@@ -144,7 +159,10 @@
     <!-- Portfolio Section -->
     <section id="sync-portfolio" class="portfolio-section">
         <div class="container">
-            <h2 class="section-title">Sync Music Production</h2>
+            <div class="section-heading">
+                <span class="section-number">03</span>
+                <h2 class="section-title">Sync Music <span>Production</span></h2>
+            </div>
             <div class="section-intro">
                 <p class="intro-text">Selected commercial, remix, and media composition work.</p>
             </div>
@@ -244,7 +262,10 @@
     <!-- Contact Section -->
     <section id="contact" class="contact-section">
         <div class="container">
-            <h2 class="section-title">Get In Touch</h2>
+            <div class="section-heading">
+                <span class="section-number">04</span>
+                <h2 class="section-title">Get <span>In Touch</span></h2>
+            </div>
             <div class="contact-content">
                 <p class="contact-text">
                     Interested in working together? Let's create something amazing.
@@ -272,7 +293,7 @@
     <!-- Footer -->
     <footer class="footer">
         <div class="container">
-            <p>&copy; 2024 Jason Robinson All rights reserved.</p>
+            <p>&copy; <span id="current-year">2026</span> Jason Robinson. All rights reserved.</p>
         </div>
     </footer>
 

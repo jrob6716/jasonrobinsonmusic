@@ -63,11 +63,11 @@ let lastScroll = 0;
 window.addEventListener('scroll', () => {
     const currentScroll = window.pageYOffset;
     
-    // Add shadow when scrolled
+// Mark the compact header state when scrolled
     if (currentScroll > 50) {
-        header.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.3)';
+        header.classList.add('is-scrolled');
     } else {
-        header.style.boxShadow = 'none';
+        header.classList.remove('is-scrolled');
     }
     
     lastScroll = currentScroll;
@@ -92,7 +92,7 @@ const observer = new IntersectionObserver((entries) => {
 }, observerOptions);
 
 // Observe elements for animation
-const animateElements = document.querySelectorAll('.reel-item, .sync-video-card, .contact-content');
+const animateElements = document.querySelectorAll('.playlist-container, .stat-item, .sync-video-card, .contact-content');
 animateElements.forEach(el => {
     el.style.opacity = '0';
     el.style.transform = 'translateY(30px)';
@@ -154,38 +154,6 @@ iframes.forEach(iframe => {
 });
 
 // ===================================
-// Parallax Effect for Hero Section
-// ===================================
-
-const hero = document.querySelector('.hero');
-
-window.addEventListener('scroll', () => {
-    const scrolled = window.pageYOffset;
-    const parallaxSpeed = 0.5;
-    
-    if (hero && scrolled < hero.offsetHeight) {
-        hero.style.transform = `translateY(${scrolled * parallaxSpeed}px)`;
-    }
-});
-
-// ===================================
-// Video Player Controls Enhancement
-// ===================================
-
-const videoWrappers = document.querySelectorAll('.video-wrapper');
-
-videoWrappers.forEach(wrapper => {
-    wrapper.addEventListener('mouseenter', () => {
-        wrapper.style.transform = 'scale(1.02)';
-        wrapper.style.transition = 'transform 0.3s ease';
-    });
-    
-    wrapper.addEventListener('mouseleave', () => {
-        wrapper.style.transform = 'scale(1)';
-    });
-});
-
-// ===================================
 // Console Welcome Message
 // ===================================
 
@@ -219,26 +187,13 @@ window.addEventListener('scroll', debounce(highlightNavigation, 10));
 
 // Skip to main content
 const skipLink = document.createElement('a');
-skipLink.href = '#reels';
+skipLink.href = '#discography';
 skipLink.className = 'skip-link';
 skipLink.textContent = 'Skip to main content';
-skipLink.style.cssText = `
-    position: absolute;
-    top: -40px;
-    left: 0;
-    background: #d4a574;
-    color: #1a1a1a;
-    padding: 8px;
-    text-decoration: none;
-    z-index: 100;
-`;
-skipLink.addEventListener('focus', () => {
-    skipLink.style.top = '0';
-});
-skipLink.addEventListener('blur', () => {
-    skipLink.style.top = '-40px';
-});
 document.body.insertBefore(skipLink, document.body.firstChild);
+
+const currentYear = document.getElementById('current-year');
+if (currentYear) currentYear.textContent = new Date().getFullYear();
 
 // Keyboard navigation for mobile menu
 navToggle.addEventListener('keydown', (e) => {
