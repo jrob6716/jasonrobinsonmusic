@@ -196,6 +196,39 @@ const currentYear = document.getElementById('current-year');
 if (currentYear) currentYear.textContent = new Date().getFullYear();
 
 // ===================================
+// Grammy Video Dialog
+// ===================================
+
+const awardTrigger = document.querySelector('.hero-award-trigger');
+const awardDialog = document.getElementById('grammy-video-dialog');
+
+if (awardTrigger && awardDialog) {
+    const awardVideo = awardDialog.querySelector('video');
+    const closeAwardDialog = awardDialog.querySelector('.award-dialog-close');
+
+    awardTrigger.addEventListener('click', () => {
+        awardDialog.showModal();
+        awardVideo.play().catch(() => {
+            // The player remains visible if the browser blocks autoplay.
+        });
+    });
+
+    closeAwardDialog.addEventListener('click', () => awardDialog.close());
+
+    awardDialog.addEventListener('click', (event) => {
+        const bounds = awardDialog.getBoundingClientRect();
+        const clickedBackdrop = event.clientX < bounds.left || event.clientX > bounds.right ||
+            event.clientY < bounds.top || event.clientY > bounds.bottom;
+        if (clickedBackdrop) awardDialog.close();
+    });
+
+    awardDialog.addEventListener('close', () => {
+        awardVideo.pause();
+        awardVideo.currentTime = 0;
+    });
+}
+
+// ===================================
 // Music Catalog Player
 // ===================================
 

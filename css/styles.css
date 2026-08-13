@@ -236,6 +236,75 @@ ul { list-style: none; }
 .hero-description { font-size: clamp(1.65rem, 2.5vw, 2.6rem); letter-spacing: .05em; }
 .hero-location { color: #cacaca; font-size: .82rem; letter-spacing: .15em; text-align: right; text-transform: uppercase; }
 
+.hero-award-trigger {
+    display: inline-flex;
+    align-items: center;
+    gap: .85rem;
+    padding: 0 0 .25rem;
+    border: 0;
+    border-bottom: 1px solid var(--signal);
+    background: transparent;
+    cursor: pointer;
+    text-align: left;
+    transition: color .2s, border-color .2s;
+}
+
+.hero-award-trigger:hover,
+.hero-award-trigger:focus-visible { color: var(--white); border-color: var(--white); }
+.award-watch { color: var(--white); font-size: .68rem; letter-spacing: .13em; }
+
+.award-dialog {
+    width: min(820px, calc(100vw - 2rem));
+    max-width: none;
+    max-height: calc(100svh - 2rem);
+    margin: auto;
+    padding: 0;
+    overflow: auto;
+    border: 1px solid rgba(255,255,255,.35);
+    border-radius: 0;
+    background: var(--ink);
+    color: var(--white);
+    box-shadow: 0 30px 100px rgba(0,0,0,.65);
+}
+
+.award-dialog::backdrop { background: rgba(0,0,0,.82); backdrop-filter: blur(7px); }
+.award-dialog[open] { animation: dialog-in .22s ease-out; }
+
+.award-dialog-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1.5rem;
+    padding: 1rem 1rem 1rem 1.25rem;
+    border-bottom: 1px solid var(--line-dark);
+}
+
+.award-dialog-kicker { color: var(--signal); font-size: .68rem; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; }
+.award-dialog-header h2 { margin-top: .15rem; font-family: var(--display); font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 400; letter-spacing: .04em; line-height: .9; text-transform: uppercase; }
+.award-dialog-close {
+    flex: 0 0 auto;
+    width: 44px;
+    height: 44px;
+    border: 1px solid var(--line-dark);
+    background: transparent;
+    color: var(--white);
+    cursor: pointer;
+    font-family: var(--body);
+    font-size: 1.8rem;
+    font-weight: 300;
+    line-height: 1;
+    transition: background .2s, color .2s;
+}
+.award-dialog-close:hover { background: var(--signal); color: var(--white); }
+.award-video-wrapper { position: relative; aspect-ratio: 16 / 9; background: #000; }
+.award-video-wrapper video { display: block; width: 100%; height: 100%; object-fit: contain; }
+.award-dialog-caption { padding: .8rem 1.25rem; color: var(--muted); font-size: .72rem; letter-spacing: .14em; text-transform: uppercase; }
+
+@keyframes dialog-in {
+    from { opacity: 0; transform: translateY(12px) scale(.985); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
 .hero-headshot {
     position: relative;
     justify-self: end;

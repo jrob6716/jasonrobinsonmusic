@@ -41,7 +41,11 @@
                 <h1 class="hero-title"><span>Jason</span><span>Robinson</span></h1>
                 <div class="hero-details">
                     <div>
-                        <p class="hero-subtitle">Grammy Award Winning</p>
+                        <button class="hero-subtitle hero-award-trigger" type="button"
+                                aria-haspopup="dialog" aria-controls="grammy-video-dialog">
+                            <span>Grammy Award Winning</span>
+                            <span class="award-watch">Watch ↗</span>
+                        </button>
                         <p class="hero-description">Music Producer &amp; Media Composer</p>
                     </div>
                     <p class="hero-location">Los Angeles<br>Orange County</p>
@@ -55,6 +59,23 @@
         </div>
         <a class="hero-scroll" href="#discography">Scroll to discover <span aria-hidden="true">↓</span></a>
     </section>
+
+    <dialog class="award-dialog" id="grammy-video-dialog" aria-labelledby="grammy-video-title">
+        <div class="award-dialog-header">
+            <div>
+                <span class="award-dialog-kicker">58th Grammy Awards</span>
+                <h2 id="grammy-video-title">Best Remixed Recording</h2>
+            </div>
+            <button class="award-dialog-close" type="button" aria-label="Close Grammy video">×</button>
+        </div>
+        <div class="award-video-wrapper">
+            <video controls playsinline preload="metadata" aria-label="Grammy Award announcement video">
+                <source src="https://www.dropbox.com/scl/fi/1dfst89aq95xq6t11uarr/Dave-Aud-Best-Remixed-Recording-Non-Classical-58th-GRAMMYs-1080p_30fps_H264-128kbit_AAC.mp4?rlkey=d9umgecrhtrzgekq1ks2t292e&amp;raw=1" type="video/mp4">
+                Your browser does not support embedded video.
+            </video>
+        </div>
+        <p class="award-dialog-caption">Best Remixed Recording, Non-Classical</p>
+    </dialog>
 
  
 
