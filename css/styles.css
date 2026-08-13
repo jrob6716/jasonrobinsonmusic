@@ -159,7 +159,7 @@ ul { list-style: none; }
     inset: var(--header-height) 0 0;
     z-index: -2;
     background: url('../images/site-background.jpg') center / cover no-repeat;
-    filter: grayscale(1) contrast(1.2);
+    filter: saturate(.72) contrast(1.08) brightness(1.12);
     transform: scale(1.03);
 }
 
@@ -168,7 +168,7 @@ ul { list-style: none; }
     inset: var(--header-height) 0 0;
     z-index: -1;
     content: "";
-    background: linear-gradient(90deg, rgba(0,0,0,.94) 0%, rgba(0,0,0,.72) 48%, rgba(0,0,0,.2) 100%);
+    background: linear-gradient(90deg, rgba(0,0,0,.78) 0%, rgba(0,0,0,.52) 48%, rgba(0,0,0,.12) 100%);
 }
 
 .hero-content {
@@ -784,7 +784,7 @@ ul { list-style: none; }
     :root { --header-height: 64px; }
     .hero { min-height: auto; }
     .hero-content { min-height: auto; grid-template-columns: 1fr; padding-block: 3rem 2.5rem; }
-    .hero::after { background: rgba(0,0,0,.72); }
+    .hero::after { background: linear-gradient(180deg, rgba(0,0,0,.62), rgba(0,0,0,.42)); }
     .hero-title { font-size: clamp(5.25rem, 26vw, 9rem); }
     .hero-title span:last-child { -webkit-text-stroke-width: 1px; }
     .hero-headshot { justify-self: stretch; width: 100%; margin: 0; }
