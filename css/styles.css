@@ -121,6 +121,26 @@ ul { list-style: none; }
     color: var(--ink);
 }
 
+.nav-contact {
+    display: flex;
+    align-items: stretch;
+    height: 100%;
+}
+
+.nav-instagram {
+    display: grid;
+    place-items: center;
+    width: var(--header-height);
+    height: 100%;
+    border-left: 1px solid var(--line-dark);
+    color: #dadada;
+    transition: color .2s, background .2s;
+}
+
+.nav-instagram svg { width: 21px; height: 21px; }
+.nav-instagram:hover,
+.nav-instagram:focus-visible { background: var(--signal); color: var(--white); }
+
 .nav-toggle {
     display: none;
     width: 44px;
@@ -807,20 +827,6 @@ ul { list-style: none; }
     text-transform: uppercase;
 }
 .contact-link:hover { transform: none; border-bottom-color: var(--white); color: var(--white); }
-.social-links { justify-content: flex-start; }
-.social-link {
-    display: grid;
-    place-items: center;
-    width: 62px;
-    height: 62px;
-    border: 1px solid var(--ink);
-    border-radius: 0;
-    color: var(--ink);
-    transition: background .2s, color .2s;
-}
-.social-link svg { width: 26px; height: 26px; }
-.social-link:hover { border-color: var(--ink); background: var(--ink); color: var(--white); transform: none; box-shadow: none; }
-
 .footer {
     padding: 1.4rem var(--gutter);
     border-top: 1px solid var(--line-dark);
@@ -858,6 +864,9 @@ ul { list-style: none; }
     .nav-menu.active { transform: translateX(0); }
     .nav-menu li { height: auto; }
     .nav-link { height: auto; justify-content: start; padding: 1rem var(--gutter); border: 0; border-bottom: 1px solid var(--line-dark); font-size: clamp(2rem, 7vw, 4rem); }
+    .nav-contact { display: grid; grid-template-columns: 1fr var(--header-height); }
+    .nav-instagram { width: auto; height: auto; border-bottom: 1px solid var(--line-dark); }
+    .nav-instagram svg { width: 24px; height: 24px; }
     .nav-toggle.active .hamburger { background: transparent; }
     .nav-toggle.active .hamburger::before { transform: translate(-50%, 0) rotate(45deg); }
     .nav-toggle.active .hamburger::after { transform: translate(-50%, 0) rotate(-45deg); }
