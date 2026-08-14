@@ -3,9 +3,12 @@ window.musicCatalog = [
         category: 'Cinematic & Emotional',
         files: [
             'Send Me an Angel Trailer.mp3',
+            'Love somebody Acoustic edit PREMASTER 1.1.mp3',
+            'Phases .mp3',
             'Halibut.mp3',
             'See me Falling REF .mp3',
             'Wish you were here.mp3',
+            'Love somebody Acoustic Master.m4a',
             'Ride.mp3',
             'Tribalskunk.mp3'
         ]
@@ -35,13 +38,30 @@ window.musicCatalog = [
             'church jam.MP3',
             'Mitsubishi .mp3',
             'MJ soul.mp3',
-            "stabbin' neverending loop.wav"
+            "stabbin' neverending loop.wav",
+            'Promises .mp3'
+        ]
+    },
+    {
+        category: 'Hip Hop & Pop',
+        files: [
+            'Braden.mp3',
+            'Obsessed.mp3',
+            'Quicksand_NV_V1.mp3',
+            'Tough Love JROB x Rollo.m4a',
+            'JROB Karma DEMO ONLY NOT FOR USE.mp3',
+            'Do Sexy - JROB x Tima x Rollo.m4a',
+            'Patience_V2D.mp3',
+            'Eyes.mp3',
+            'Breathless.mp3',
+            'Physical_Attraction.mp3'
         ]
     },
     {
         category: 'Electronic & Ambient',
         files: [
             'Prism.mp3',
+            'Sigmatic.mp3',
             'Advanced Stimulation Chill.mp3',
             'Aum.mp3',
             'Transbient.mp3'

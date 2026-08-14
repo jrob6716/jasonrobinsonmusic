@@ -260,6 +260,7 @@ if (catalogPlayer && Array.isArray(window.musicCatalog)) {
     const cleanTitle = (filename) => filename
         .replace(/\.(mp3|m4a|wav)$/i, '')
         .replace(/^\d+\s+/, '')
+        .replace(/_/g, ' ')
         .replace(/\s+REF(?:\s+JR)?\s*$/i, '')
         .replace(/\s+2025\s+NEW\s*$/i, '')
         .replace(/\s+/g, ' ')
