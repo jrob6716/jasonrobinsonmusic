@@ -3,14 +3,18 @@ window.musicCatalog = [
         category: 'Cinematic & Emotional',
         files: [
             'Send Me an Angel Trailer.mp3',
-            'Love somebody Acoustic edit PREMASTER 1.1.mp3',
             'Phases .mp3',
             'Halibut.mp3',
-            'See me Falling REF .mp3',
             'Wish you were here.mp3',
             'Love somebody Acoustic Master.m4a',
             'Ride.mp3',
             'Tribalskunk.mp3'
+        ]
+    },
+    {
+        category: 'Rock, Indie & Alternative',
+        files: [
+            'See me Falling.mp3'
         ]
     },
     {
@@ -55,6 +59,14 @@ window.musicCatalog = [
             'Eyes.mp3',
             'Breathless.mp3',
             'Physical_Attraction.mp3'
+        ]
+    },
+    {
+        category: 'Synth Pop & Indie Electronic',
+        files: [
+            'Dreamers unafraid.mp3',
+            'Lost with you .mp3',
+            'Tell Me .mp3'
         ]
     },
     {
