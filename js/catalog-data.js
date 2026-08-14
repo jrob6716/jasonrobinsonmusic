@@ -4,12 +4,10 @@ window.musicCatalog = [
         files: [
             'Send Me an Angel Trailer.mp3',
             'Phases .mp3',
-            'Halibut.mp3',
             'Wish you were here.mp3',
             'Love somebody Acoustic Master.m4a',
             'Ride.mp3',
-            'Lose a Lover.mp3',
-            'Tribalskunk.mp3'
+            'Lose a Lover.mp3'
         ]
     },
     {
@@ -79,6 +77,8 @@ window.musicCatalog = [
         category: 'Electronic & Ambient',
         files: [
             'Prism.mp3',
+            'Tribalskunk.mp3',
+            'Halibut.mp3',
             'Sigmatic.mp3',
             'Advanced Stimulation Chill.mp3',
             'Aum.mp3',
