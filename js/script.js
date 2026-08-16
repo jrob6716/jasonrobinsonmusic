@@ -423,73 +423,20 @@ navToggle.addEventListener('keydown', (e) => {
 
 
 // ===================================
-// Email Protection
+// Exclusive Media Playback
 // ===================================
 
-function initEmailProtection() {
-    const emailLink = document.getElementById('email-link');
-    if (!emailLink) return;
-    
-    // Obfuscated email parts (reversed and encoded)
-    const user = 'ofni'.split('').reverse().join('');
-    const domain = 'moc.sqerfytrid'.split('').reverse().join('');
-    const email = user + '@' + domain;
-    
-    // Create the protected email link
-    emailLink.addEventListener('click', function(e) {
-        e.preventDefault();
-        
-        // Double-check this is a real user interaction
-        if (e.isTrusted) {
-            // Reveal the email
-            this.textContent = email;
-            this.href = 'mailto:' + email;
-            this.style.pointerEvents = 'none';
-            this.style.cursor = 'text';
-            
-            // Add copy functionality
-            setTimeout(() => {
-                this.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    navigator.clipboard.writeText(email).then(() => {
-                        const originalText = this.textContent;
-                        this.textContent = 'Email copied!';
-                        setTimeout(() => {
-                            this.textContent = originalText;
-                        }, 2000);
-                    }).catch(() => {
-                        // Fallback for older browsers
-                        const textArea = document.createElement('textarea');
-                        textArea.value = email;
-                        document.body.appendChild(textArea);
-                        textArea.select();
-                        document.execCommand('copy');
-                        document.body.removeChild(textArea);
-                        
-                        const originalText = this.textContent;
-                        this.textContent = 'Email copied!';
-                        setTimeout(() => {
-                            this.textContent = originalText;
-                        }, 2000);
-                    });
-                });
-                this.style.pointerEvents = 'auto';
-                this.style.cursor = 'pointer';
-            }, 100);
-        }
-    });
-    
-    // Add hover effect
-    emailLink.addEventListener('mouseenter', function() {
-        if (this.textContent === 'Click to reveal email') {
-            this.textContent = 'Click to show contact email';
-        }
-    });
-    
-    emailLink.addEventListener('mouseleave', function() {
-        if (this.textContent === 'Click to show contact email') {
-            this.textContent = 'Click to reveal email';
-        }
+function initExclusiveMediaPlayback() {
+    const mediaPlayers = Array.from(document.querySelectorAll('audio, video'));
+
+    mediaPlayers.forEach(player => {
+        player.addEventListener('play', () => {
+            mediaPlayers.forEach(otherPlayer => {
+                if (otherPlayer !== player && !otherPlayer.paused) {
+                    otherPlayer.pause();
+                }
+            });
+        });
     });
 }
 
@@ -501,8 +448,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // Add loaded class to body for CSS animations
     document.body.classList.add('loaded');
     
-    // Initialize email protection
-    initEmailProtection();
+    // Prevent overlapping audio from the catalog and video players
+    initExclusiveMediaPlayback();
     
     // Log page load time
     if (window.performance) {
