@@ -271,8 +271,8 @@ ul { list-style: none; }
 
 .hero-award-trigger:hover,
 .hero-award-trigger:focus-visible { color: var(--white); border-color: var(--white); }
-.award-label { display: inline-flex; align-items: center; gap: .5rem; }
-.award-icon { flex: 0 0 auto; width: auto; height: 1.55em; object-fit: contain; }
+.award-label { display: inline-flex; align-items: center; gap: .4rem; }
+.award-icon { flex: 0 0 14px; width: 14px; height: 19px; object-fit: contain; }
 .award-watch { color: var(--white); font-size: .68rem; letter-spacing: .13em; }
 
 .award-dialog {
