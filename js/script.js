@@ -238,6 +238,8 @@ if (catalogPlayer && Array.isArray(window.musicCatalog)) {
     const dropboxCatalogUrl = 'https://www.dropbox.com/scl/fo/aviu5ocm8b88pjhx2qwmi/ADe644YSV9D3_doFdfgQFnY?rlkey=h3wdz9jqjolwkn8jkal05mupm';
     const audio = catalogPlayer.querySelector('#catalog-audio');
     const categoryTabs = catalogPlayer.querySelector('[data-category-tabs]');
+    const previousCategoryButton = catalogPlayer.querySelector('[data-category-previous]');
+    const nextCategoryButton = catalogPlayer.querySelector('[data-category-next]');
     const tracklist = catalogPlayer.querySelector('[data-tracklist]');
     const searchInput = catalogPlayer.querySelector('[data-catalog-search]');
     const categoryName = catalogPlayer.querySelector('[data-category-name]');
@@ -256,6 +258,19 @@ if (catalogPlayer && Array.isArray(window.musicCatalog)) {
     let selectedCategory = window.musicCatalog[0].category;
     let tracks = [];
     let activeTrack = 0;
+
+    const updateCategoryNavigation = () => {
+        const maxScroll = categoryTabs.scrollWidth - categoryTabs.clientWidth;
+        const hasOverflow = maxScroll > 2;
+        previousCategoryButton.hidden = !hasOverflow || categoryTabs.scrollLeft <= 2;
+        nextCategoryButton.hidden = !hasOverflow || categoryTabs.scrollLeft >= maxScroll - 2;
+    };
+
+    const scrollCategoryTabs = (direction) => {
+        const firstTab = categoryTabs.querySelector('.catalog-category');
+        const distance = firstTab ? firstTab.getBoundingClientRect().width + 1 : categoryTabs.clientWidth * .8;
+        categoryTabs.scrollBy({ left: distance * direction, behavior: 'smooth' });
+    };
 
     const cleanTitle = (filename) => filename
         .replace(/\.(mp3|m4a|wav)$/i, '')
@@ -379,10 +394,18 @@ if (catalogPlayer && Array.isArray(window.musicCatalog)) {
                 tab.setAttribute('aria-selected', String(isActive));
             });
             renderTracks();
+            if (window.matchMedia('(max-width: 720px)').matches) {
+                const centeredPosition = button.offsetLeft - (categoryTabs.clientWidth - button.offsetWidth) / 2;
+                categoryTabs.scrollTo({ left: centeredPosition, behavior: 'smooth' });
+            }
         });
         categoryTabs.appendChild(button);
     });
 
+    previousCategoryButton.addEventListener('click', () => scrollCategoryTabs(-1));
+    nextCategoryButton.addEventListener('click', () => scrollCategoryTabs(1));
+    categoryTabs.addEventListener('scroll', updateCategoryNavigation, { passive: true });
+    window.addEventListener('resize', updateCategoryNavigation);
     searchInput.addEventListener('input', renderTracks);
 
     playButton.addEventListener('click', () => {
@@ -411,6 +434,7 @@ if (catalogPlayer && Array.isArray(window.musicCatalog)) {
     });
 
     renderTracks();
+    requestAnimationFrame(updateCategoryNavigation);
 }
 
 // Keyboard navigation for mobile menu

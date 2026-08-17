@@ -540,6 +540,10 @@ ul { list-style: none; }
     border: 1px solid var(--line-dark);
 }
 
+.catalog-category-browser { position: relative; min-width: 0; }
+.catalog-category-hint,
+.catalog-scroll-button { display: none; }
+
 .catalog-categories {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -901,13 +905,49 @@ ul { list-style: none; }
     .catalog-intro { display: block; }
     .catalog-intro .intro-text { margin-top: 1.5rem; }
     .catalog-toolbar { display: block; border: 0; background: transparent; }
+    .catalog-category-browser { overflow: hidden; border: 1px solid var(--line-dark); background: var(--ink); }
+    .catalog-category-hint {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        min-height: 38px;
+        padding: .55rem .75rem;
+        border-bottom: 1px solid var(--line-dark);
+        color: var(--muted);
+        font-size: .62rem;
+        font-weight: 700;
+        letter-spacing: .16em;
+        text-transform: uppercase;
+    }
+    .catalog-category-hint span:first-child { color: var(--signal); }
     .catalog-categories {
         display: flex;
         overflow-x: auto;
-        border: 1px solid var(--line-dark);
+        border: 0;
+        scroll-padding-inline: 46px;
         scroll-snap-type: x proximity;
+        scrollbar-width: none;
+        -webkit-overflow-scrolling: touch;
     }
-    .catalog-category { flex: 0 0 min(75vw, 270px); scroll-snap-align: start; }
+    .catalog-categories::-webkit-scrollbar { display: none; }
+    .catalog-category { flex: 0 0 min(78vw, 270px); scroll-snap-align: start; }
+    .catalog-scroll-button {
+        position: absolute;
+        top: 38px;
+        bottom: 0;
+        z-index: 3;
+        display: grid;
+        place-items: center;
+        width: 46px;
+        border: 0;
+        color: var(--signal);
+        cursor: pointer;
+        font-size: 1.35rem;
+    }
+    .catalog-scroll-button[hidden] { display: none; }
+    .catalog-scroll-previous { left: 0; background: linear-gradient(90deg, var(--ink) 58%, rgba(15,15,15,.12)); }
+    .catalog-scroll-next { right: 0; background: linear-gradient(270deg, var(--ink) 58%, rgba(15,15,15,.12)); }
+    .catalog-scroll-button:focus-visible { outline: 2px solid var(--signal); outline-offset: -3px; }
     .catalog-search { margin-top: 1px; border: 1px solid var(--line-dark); }
     .catalog-player { grid-template-columns: 1fr; }
     .catalog-current { border-right: 0; border-bottom: 1px solid var(--line-dark); }

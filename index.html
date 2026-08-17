@@ -206,7 +206,17 @@
 
             <div class="catalog-browser" data-catalog-player>
                 <div class="catalog-toolbar">
-                    <div class="catalog-categories" data-category-tabs role="tablist" aria-label="Catalog categories"></div>
+                    <div class="catalog-category-browser" data-category-browser>
+                        <div class="catalog-category-hint" aria-hidden="true">
+                            <span>Browse genres</span>
+                            <span>Swipe →</span>
+                        </div>
+                        <button class="catalog-scroll-button catalog-scroll-previous" type="button"
+                                data-category-previous aria-label="Show previous genres" hidden>←</button>
+                        <div class="catalog-categories" data-category-tabs role="tablist" aria-label="Catalog genres"></div>
+                        <button class="catalog-scroll-button catalog-scroll-next" type="button"
+                                data-category-next aria-label="Show more genres">→</button>
+                    </div>
                     <label class="catalog-search">
                         <span>Find a track</span>
                         <input type="search" data-catalog-search placeholder="Search selected category" autocomplete="off">
