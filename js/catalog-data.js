@@ -50,6 +50,10 @@ window.musicCatalog = [
         category: 'Hip Hop & Pop',
         files: [
             'Braden.mp3',
+            {
+                file: 'Insomnia_V1_RichardVission_Bianca_LorenMoore_JR._JBmp3.mp3',
+                title: 'Insomnia'
+            },
             'Obsessed.mp3',
             'Quicksand.mp3',
             'Tough Love .m4a',

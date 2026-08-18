@@ -281,12 +281,16 @@ if (catalogPlayer && Array.isArray(window.musicCatalog)) {
         .replace(/\s+/g, ' ')
         .trim();
 
-    const catalogTracks = window.musicCatalog.flatMap(({ category, files }) => files.map((file) => ({
-        category,
-        file,
-        title: cleanTitle(file),
-        src: `${dropboxCatalogUrl}&preview=${encodeURIComponent(`${category}/${file}`)}&raw=1`
-    })));
+    const catalogTracks = window.musicCatalog.flatMap(({ category, files }) => files.map((track) => {
+        const file = typeof track === 'string' ? track : track.file;
+
+        return {
+            category,
+            file,
+            title: typeof track === 'string' ? cleanTitle(file) : track.title,
+            src: `${dropboxCatalogUrl}&preview=${encodeURIComponent(`${category}/${file}`)}&raw=1`
+        };
+    }));
 
     const formatTime = (seconds) => {
         if (!Number.isFinite(seconds)) return '0:00';
