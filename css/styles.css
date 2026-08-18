@@ -497,7 +497,58 @@ ul { list-style: none; }
 }
 .stat-label { margin-top: 1rem; color: inherit; font-size: .8rem; letter-spacing: .14em; text-transform: uppercase; }
 
-.premiumbeat-link { margin-top: 2rem; text-align: left; }
+.premiumbeat-link { margin-top: clamp(2rem, 4vw, 3.5rem); text-align: left; }
+
+.premiumbeat-cta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+    width: 100%;
+    padding: clamp(1.25rem, 2.5vw, 1.8rem);
+    border: 1px solid var(--signal);
+    background: var(--signal);
+    color: var(--white);
+    text-transform: uppercase;
+    transition: background .2s, border-color .2s, color .2s;
+}
+
+.premiumbeat-cta-copy { min-width: 0; }
+
+.premiumbeat-cta-kicker {
+    display: block;
+    margin-bottom: .4rem;
+    font-size: .68rem;
+    font-weight: 700;
+    letter-spacing: .17em;
+    line-height: 1.2;
+    opacity: .78;
+}
+
+.premiumbeat-cta-title {
+    display: block;
+    font-family: var(--display);
+    font-size: clamp(2rem, 4vw, 3.25rem);
+    font-weight: 400;
+    letter-spacing: .035em;
+    line-height: .95;
+}
+
+.premiumbeat-cta-arrow {
+    flex: 0 0 auto;
+    font-family: var(--display);
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    line-height: 1;
+}
+
+.premiumbeat-cta:hover,
+.premiumbeat-cta:focus-visible {
+    border-color: var(--white);
+    background: var(--white);
+    color: var(--ink);
+}
+
+.premiumbeat-cta:focus-visible { outline: 3px solid var(--signal); outline-offset: 4px; }
 
 /* Music catalog */
 .catalog-intro {
@@ -896,6 +947,9 @@ ul { list-style: none; }
     .headshot-image { aspect-ratio: 4 / 4.4; object-position: center 33%; }
     .section-heading { grid-template-columns: 42px 1fr; }
     .section-title { font-size: clamp(4rem, 20vw, 7.5rem); }
+    .premiumbeat-cta { gap: 1rem; }
+    .premiumbeat-cta-title { font-size: clamp(1.85rem, 9vw, 2.6rem); }
+    .premiumbeat-cta-arrow { font-size: 2.5rem; }
     .playlist-container { grid-template-columns: 1fr; }
     .apple-music-embed { grid-column: 1; grid-row: auto; }
     .production-stats,
