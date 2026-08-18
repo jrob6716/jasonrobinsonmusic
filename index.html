@@ -106,30 +106,52 @@
                 </p>
             </div>
 
-            <!-- Apple Music Playlist Embed -->
+            <!-- Production Credits Streaming Players -->
             <div class="playlist-container">
                 <div class="playlist-header">
                     <h3>Jason Robinson Production Credits</h3>
                     <p>A comprehensive collection of my production work and collaborations</p>
-                </div>
-                
-                <!-- Apple Music Embed -->
-                <div class="apple-music-embed">
-                    <iframe allow="autoplay *; encrypted-media *; fullscreen *; clipboard-write"
-                            frameborder="0"
-                            height="500"
-                            style="width:100%;max-width:660px;overflow:hidden;"
-                            sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-storage-access-by-user-activation allow-top-navigation-by-user-activation"
-                            src="https://embed.music.apple.com/us/playlist/jason-robinson-production-credits/pl.u-d2Ak2sALZN4?app=music&itsct=music_box_player&itscg=30200&at=1000lHKX&ls=1&theme=auto">
-                    </iframe>
+                    <div class="playlist-service-tabs" role="tablist" aria-label="Choose a streaming service">
+                        <button class="playlist-service-tab is-active" id="apple-music-tab" type="button" role="tab"
+                                aria-selected="true" aria-controls="apple-music-player" data-playlist-tab="apple">
+                            Apple Music
+                        </button>
+                        <button class="playlist-service-tab" id="spotify-tab" type="button" role="tab" tabindex="-1"
+                                aria-selected="false" aria-controls="spotify-player" data-playlist-tab="spotify">
+                            Spotify
+                        </button>
+                    </div>
                 </div>
 
-                <!-- Alternative Link -->
-                <div class="playlist-link">
+                <div class="playlist-embeds">
+                    <div class="playlist-embed is-active" id="apple-music-player" role="tabpanel"
+                         aria-labelledby="apple-music-tab" data-playlist-panel="apple">
+                        <iframe title="Jason Robinson Production Credits on Apple Music"
+                                allow="autoplay *; encrypted-media *; fullscreen *; clipboard-write"
+                                loading="lazy"
+                                sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-storage-access-by-user-activation allow-top-navigation-by-user-activation"
+                                src="https://embed.music.apple.com/us/playlist/jason-robinson-production-credits/pl.u-d2Ak2sALZN4?app=music&amp;itsct=music_box_player&amp;itscg=30200&amp;at=1000lHKX&amp;ls=1&amp;theme=auto">
+                        </iframe>
+                    </div>
+                    <div class="playlist-embed" id="spotify-player" role="tabpanel"
+                         aria-labelledby="spotify-tab" data-playlist-panel="spotify" hidden>
+                        <iframe title="Jason Robinson Production Credits on Spotify"
+                                src="https://open.spotify.com/embed/playlist/0kUhRIKylwJVVlU1hzmCgk?utm_source=generator&amp;theme=0"
+                                loading="lazy"
+                                allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                                allowfullscreen>
+                        </iframe>
+                    </div>
+                </div>
+
+                <div class="playlist-links">
                     <a href="https://music.apple.com/us/playlist/jason-robinson-production-credits/pl.u-d2Ak2sALZN4"
-                       target="_blank"
-                       class="cta-button">
-                        Listen on Apple Music
+                       target="_blank" rel="noopener noreferrer" class="cta-button" data-playlist-link="apple">
+                        Open in Apple Music
+                    </a>
+                    <a href="https://open.spotify.com/playlist/0kUhRIKylwJVVlU1hzmCgk?si=47660273bcf24d42"
+                       target="_blank" rel="noopener noreferrer" class="cta-button" data-playlist-link="spotify" hidden>
+                        Open in Spotify
                     </a>
                 </div>
             </div>

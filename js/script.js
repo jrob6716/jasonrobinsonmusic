@@ -465,6 +465,55 @@ function initExclusiveMediaPlayback() {
 }
 
 // ===================================
+// Production Credits Service Switcher
+// ===================================
+
+function initPlaylistServiceSwitcher() {
+    const tabs = Array.from(document.querySelectorAll('[data-playlist-tab]'));
+    const panels = Array.from(document.querySelectorAll('[data-playlist-panel]'));
+    const links = Array.from(document.querySelectorAll('[data-playlist-link]'));
+
+    if (!tabs.length) return;
+
+    const selectService = (service) => {
+        panels.forEach(panel => {
+            const isActive = panel.dataset.playlistPanel === service;
+
+            if (!isActive && !panel.hidden) {
+                const iframe = panel.querySelector('iframe');
+                if (iframe) iframe.src = iframe.src;
+            }
+
+            panel.hidden = !isActive;
+            panel.classList.toggle('is-active', isActive);
+        });
+
+        tabs.forEach(tab => {
+            const isActive = tab.dataset.playlistTab === service;
+            tab.classList.toggle('is-active', isActive);
+            tab.setAttribute('aria-selected', String(isActive));
+            tab.tabIndex = isActive ? 0 : -1;
+        });
+
+        links.forEach(link => {
+            link.hidden = link.dataset.playlistLink !== service;
+        });
+    };
+
+    tabs.forEach((tab, index) => {
+        tab.addEventListener('click', () => selectService(tab.dataset.playlistTab));
+        tab.addEventListener('keydown', (event) => {
+            if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
+            event.preventDefault();
+            const direction = event.key === 'ArrowRight' ? 1 : -1;
+            const nextTab = tabs[(index + direction + tabs.length) % tabs.length];
+            selectService(nextTab.dataset.playlistTab);
+            nextTab.focus();
+        });
+    });
+}
+
+// ===================================
 // Initialize on DOM Load
 // ===================================
 
@@ -474,6 +523,9 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Prevent overlapping audio from the catalog and video players
     initExclusiveMediaPlayback();
+
+    // Let visitors choose their preferred production credits playlist
+    initPlaylistServiceSwitcher();
     
     // Log page load time
     if (window.performance) {
