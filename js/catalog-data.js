@@ -55,14 +55,16 @@ window.musicCatalog = [
                 title: 'Insomnia'
             },
             'Obsessed.mp3',
-            'Quicksand.mp3',
             'Tough Love .m4a',
             'Karma .mp3',
             'Do Sexy .m4a',
             'Patience_V2D.mp3',
             'Eyes.mp3',
             'Breathless.mp3',
-            'Physical_Attraction.mp3',
+            {
+                file: 'Physical Attraction.m4a',
+                title: 'Physical Attraction'
+            },
             'WAKE ME DA JR.m4a'
         ]
     },
