@@ -721,6 +721,7 @@ ul { list-style: none; }
 }
 
 .catalog-current {
+    --catalog-skip-width: 60px;
     min-width: 0;
     padding: clamp(1.25rem, 3vw, 3rem);
     border-right: 1px solid var(--line-dark);
@@ -775,8 +776,9 @@ ul { list-style: none; }
     height: 28px;
     display: flex;
     align-items: center;
+    justify-content: space-between;
     gap: 3px;
-    margin: -.25rem 0 1rem;
+    margin: -.25rem var(--catalog-skip-width) 1rem;
     overflow: hidden;
 }
 
@@ -803,7 +805,7 @@ ul { list-style: none; }
 
 .catalog-controls {
     display: grid;
-    grid-template-columns: 60px 1fr 60px;
+    grid-template-columns: var(--catalog-skip-width) 1fr var(--catalog-skip-width);
     border: 1px solid var(--line-dark);
 }
 

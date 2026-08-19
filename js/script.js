@@ -265,7 +265,7 @@ if (catalogPlayer && Array.isArray(window.musicCatalog)) {
     let activeTrack = 0;
 
     if (waveform) {
-        for (let index = 0; index < 28; index += 1) {
+        for (let index = 0; index < 48; index += 1) {
             const bar = document.createElement('span');
             bar.style.setProperty('--bar-index', index);
             bar.style.setProperty('--bar-height', `${7 + ((index * 7) % 17)}px`);
