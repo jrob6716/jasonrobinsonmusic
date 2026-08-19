@@ -181,7 +181,11 @@ ul { list-style: none; }
     background: url('../images/site-background.jpg') center / cover no-repeat;
     filter: saturate(.72) contrast(1.08) brightness(1.12);
     transform: scale(1.03);
+    transition: transform 1.8s cubic-bezier(.2, .7, .2, 1);
 }
+
+.motion-ready .hero-backdrop { transform: scale(1.065); }
+.motion-ready.loaded .hero-backdrop { transform: scale(1.03); }
 
 .hero::after {
     position: absolute;
@@ -347,6 +351,30 @@ ul { list-style: none; }
 
 .hero-headshot:hover .headshot-image { filter: grayscale(0); }
 .hero-headshot figcaption { padding: .8rem 1rem; border-top: 1px solid var(--line-dark); }
+
+.motion-ready .hero-index,
+.motion-ready .hero-title span,
+.motion-ready .hero-details,
+.motion-ready .hero-copy > .cta-button,
+.motion-ready .hero-headshot {
+    opacity: 0;
+    transform: translateY(22px);
+    transition: opacity .85s cubic-bezier(.2, .7, .2, 1), transform .85s cubic-bezier(.2, .7, .2, 1);
+}
+
+.motion-ready .hero-title span { transform: translateY(.22em); }
+.motion-ready .hero-headshot { transform: translateY(18px) scale(1.02); }
+.motion-ready.loaded .hero-index,
+.motion-ready.loaded .hero-title span,
+.motion-ready.loaded .hero-details,
+.motion-ready.loaded .hero-copy > .cta-button,
+.motion-ready.loaded .hero-headshot { opacity: 1; transform: none; }
+.motion-ready.loaded .hero-index { transition-delay: .12s; }
+.motion-ready.loaded .hero-title span:first-child { transition-delay: .2s; }
+.motion-ready.loaded .hero-title span:last-child { transition-delay: .3s; }
+.motion-ready.loaded .hero-headshot { transition-delay: .32s; }
+.motion-ready.loaded .hero-details { transition-delay: .44s; }
+.motion-ready.loaded .hero-copy > .cta-button { transition-delay: .54s; }
 
 .cta-button {
     display: inline-flex;
@@ -721,7 +749,10 @@ ul { list-style: none; }
     object-fit: cover;
     object-position: center 37%;
     filter: grayscale(1) contrast(1.05);
+    transition: filter .8s ease, transform 1.2s cubic-bezier(.2, .7, .2, 1);
 }
+
+.catalog-player.is-playing .catalog-art img { filter: grayscale(.72) contrast(1.05); transform: scale(1.025); }
 
 .catalog-art-index {
     position: absolute;
@@ -739,6 +770,36 @@ ul { list-style: none; }
 .catalog-kicker { color: var(--signal); font-size: .7rem; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; }
 .catalog-now-playing h3 { margin-top: .25rem; font-family: var(--display); font-size: clamp(2.5rem, 5vw, 5rem); font-weight: 400; line-height: .88; text-transform: uppercase; }
 .catalog-now-playing p { margin-top: .65rem; color: var(--muted); font-size: .78rem; letter-spacing: .12em; text-transform: uppercase; }
+
+.catalog-waveform {
+    height: 28px;
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    margin: -.25rem 0 1rem;
+    overflow: hidden;
+}
+
+.catalog-waveform span {
+    width: 3px;
+    height: var(--bar-height);
+    flex: 0 0 3px;
+    background: var(--signal);
+    opacity: .34;
+    transform: scaleY(.28);
+    transform-origin: center;
+}
+
+.catalog-waveform.is-playing span {
+    animation: catalog-signal .72s ease-in-out infinite alternate;
+    animation-delay: calc(var(--bar-index) * -37ms);
+    opacity: .88;
+}
+
+@keyframes catalog-signal {
+    from { transform: scaleY(.25); }
+    to { transform: scaleY(1); }
+}
 
 .catalog-controls {
     display: grid;
@@ -872,7 +933,24 @@ ul { list-style: none; }
     border-radius: 0;
     background: var(--ink);
     box-shadow: none;
-    transition: transform .4s ease;
+}
+
+.video-wrapper::before {
+    position: absolute;
+    left: 1rem;
+    bottom: 1rem;
+    z-index: 3;
+    padding: .55rem .75rem;
+    background: var(--signal);
+    color: var(--white);
+    content: "▶  PLAY";
+    font-family: var(--display);
+    font-size: .9rem;
+    letter-spacing: .16em;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(8px);
+    transition: opacity .3s ease, transform .3s ease;
 }
 
 .video-wrapper::after {
@@ -885,8 +963,7 @@ ul { list-style: none; }
 }
 
 .video-wrapper iframe,
-.video-wrapper video { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; object-fit: contain; }
-.sync-video-card:hover .video-wrapper { transform: scale(.985); }
+.video-wrapper video { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; object-fit: contain; transition: transform .65s cubic-bezier(.2, .7, .2, 1); }
 
 .project-title {
     display: flex;
@@ -902,6 +979,27 @@ ul { list-style: none; }
 }
 
 .project-title::after { color: var(--signal); content: "↗"; }
+
+.motion-ready .reveal-item {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity .75s cubic-bezier(.2, .7, .2, 1), transform .75s cubic-bezier(.2, .7, .2, 1);
+    transition-delay: var(--reveal-delay, 0ms);
+}
+
+.motion-ready .reveal-item.is-visible { opacity: 1; transform: none; }
+
+@media (hover: hover) {
+    .sync-video-card:hover .video-wrapper video,
+    .sync-video-card:hover .video-wrapper iframe,
+    .sync-video-card:focus-within .video-wrapper video,
+    .sync-video-card:focus-within .video-wrapper iframe { transform: scale(1.035); }
+    .sync-video-card:hover .video-wrapper::before,
+    .sync-video-card:focus-within .video-wrapper::before { opacity: 1; transform: none; }
+    .sync-video-card .project-title { transition: transform .35s ease; }
+    .sync-video-card:hover .project-title,
+    .sync-video-card:focus-within .project-title { transform: translateX(.35rem); }
+}
 
 .contact-section .section-heading { border-color: var(--ink); }
 .contact-content { max-width: 900px; margin: clamp(3rem, 6vw, 6rem) 0 0 auto; text-align: left; }
@@ -1053,4 +1151,10 @@ ul { list-style: none; }
 @media (prefers-reduced-motion: reduce) {
     html { scroll-behavior: auto; }
     *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+    .motion-ready .hero-index,
+    .motion-ready .hero-title span,
+    .motion-ready .hero-details,
+    .motion-ready .hero-copy > .cta-button,
+    .motion-ready .hero-headshot,
+    .motion-ready .reveal-item { opacity: 1; transform: none; transition-delay: 0s; }
 }

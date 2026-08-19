@@ -2,6 +2,11 @@
 // Mobile Navigation Toggle
 // ===================================
 
+document.body.classList.add('motion-ready');
+requestAnimationFrame(() => {
+    requestAnimationFrame(() => document.body.classList.add('loaded'));
+});
+
 const navToggle = document.querySelector('.nav-toggle');
 const navMenu = document.querySelector('.nav-menu');
 const navLinks = document.querySelectorAll('.nav-link');
@@ -85,18 +90,17 @@ const observerOptions = {
 const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
         if (entry.isIntersecting) {
-            entry.target.style.opacity = '1';
-            entry.target.style.transform = 'translateY(0)';
+            entry.target.classList.add('is-visible');
+            observer.unobserve(entry.target);
         }
     });
 }, observerOptions);
 
 // Observe elements for animation
-const animateElements = document.querySelectorAll('.playlist-container, .stat-item, .catalog-player, .sync-video-card, .contact-content');
-animateElements.forEach(el => {
-    el.style.opacity = '0';
-    el.style.transform = 'translateY(30px)';
-    el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+const animateElements = document.querySelectorAll('.section-heading, .section-intro, .playlist-container, .production-stats, .catalog-player, .music-stats, .portfolio-group-title, .sync-video-card, .contact-content');
+animateElements.forEach((el, index) => {
+    el.classList.add('reveal-item');
+    el.style.setProperty('--reveal-delay', `${(index % 4) * 70}ms`);
     observer.observe(el);
 });
 
@@ -255,9 +259,19 @@ if (catalogPlayer && Array.isArray(window.musicCatalog)) {
     const trackCategory = catalogPlayer.querySelector('[data-track-category]');
     const trackIndex = catalogPlayer.querySelector('[data-track-index]');
     const playerStatus = catalogPlayer.querySelector('[data-player-status]');
+    const waveform = catalogPlayer.querySelector('[data-catalog-waveform]');
     let selectedCategory = window.musicCatalog[0].category;
     let tracks = [];
     let activeTrack = 0;
+
+    if (waveform) {
+        for (let index = 0; index < 28; index += 1) {
+            const bar = document.createElement('span');
+            bar.style.setProperty('--bar-index', index);
+            bar.style.setProperty('--bar-height', `${7 + ((index * 7) % 17)}px`);
+            waveform.appendChild(bar);
+        }
+    }
 
     const updateCategoryNavigation = () => {
         const maxScroll = categoryTabs.scrollWidth - categoryTabs.clientWidth;
@@ -300,6 +314,8 @@ if (catalogPlayer && Array.isArray(window.musicCatalog)) {
 
     const updatePlayState = () => {
         const isPlaying = !audio.paused;
+        catalogPlayer.classList.toggle('is-playing', isPlaying);
+        waveform?.classList.toggle('is-playing', isPlaying);
         playButton.textContent = isPlaying ? 'Pause' : 'Play';
         const current = tracks[activeTrack];
         playButton.disabled = !current;
@@ -522,9 +538,6 @@ function initPlaylistServiceSwitcher() {
 // ===================================
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Add loaded class to body for CSS animations
-    document.body.classList.add('loaded');
-    
     // Prevent overlapping audio from the catalog and video players
     initExclusiveMediaPlayback();
 
