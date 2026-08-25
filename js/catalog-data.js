@@ -4,7 +4,6 @@ window.musicCatalog = [
         files: [
             'Creep Trailer .mp3',
             'Send Me an Angel Trailer.mp3',
-            'Lose a Lover.mp3',
             'Love somebody Acoustic Master.m4a',
             'Wish you were here.mp3',
             'Phases .mp3',
@@ -18,20 +17,12 @@ window.musicCatalog = [
         ]
     },
     {
-        category: 'Tension & Drama',
-        files: [
-            'Blunted @ the end.mp3',
-            "Break' it up.mp3",
-            'Airwave.mp3'
-        ]
-    },
-    {
         category: 'Sophisticated Grooves',
         files: [
             'step up.MP3',
             'cat and mouse REF JR .mp3',
             'Society.mp3',
-            'jus another beat.MP3',
+            'jus another beat.mp3',
             'Jiggy Rock.mp3',
             'Whoop whoop .mp3',
             'Roscoes Frestyle.wav',
@@ -39,7 +30,7 @@ window.musicCatalog = [
             'Illdrumz2.mp3',
             'da joint.mp3',
             'Better Daze.mp3',
-            'church jam.MP3',
+            'church jam.mp3',
             'Mitsubishi .mp3',
             'MJ soul.mp3',
             "stabbin' neverending loop.wav",
@@ -64,8 +55,7 @@ window.musicCatalog = [
             {
                 file: 'Physical Attraction.m4a',
                 title: 'Physical Attraction'
-            },
-            'WAKE ME DA JR.m4a'
+            }
         ]
     },
     {
@@ -85,6 +75,7 @@ window.musicCatalog = [
         files: [
             'Prism.mp3',
             'Tribalskunk.mp3',
+            'Jason Robinson - Avanced Stimulation.mp3',
             'Halibut.mp3',
             'Sigmatic.mp3',
             'Advanced Stimulation Chill.mp3',
@@ -95,31 +86,17 @@ window.musicCatalog = [
     {
         category: 'Dance & Club',
         files: [
-            '10 Hilary Duff - Anyday ( Co-Produced for Richard Vission ).mp3',
-            '01 DEMO PREVIEW  -  Dirtyfreqs & Vassy - Turn up the Party.mp3',
-            '7 Eva Simons - Silly Boy ( Co-Produced for Richard Vission ).mp3',
             'LONDON ROSE KICKDRUM IKON FINAL RADIO.m4a',
-            '8 Pussycat Dolls - Bottle Pop ( Co-Produced for Richard Vission ).mp3',
             'Big Fun.m4a',
-            '4 U2 - Magnificent - ( Co-Produced for Richard Vission ).mp3',
-            'Jason Robinson - Avanced Stimulation.mp3',
             'IN MY UNIVERSE.m4a',
-            '11 Morning After - Richard Vission Remix.mp3',
             'Dirtyfreqs + Vassy - T.U.T.P (Turn up th party) 4.5 EDIT.m4a',
-            '3 Hilary Duff - Reach Out ( Co-Produced for Richard Vission ).mp3',
-            '6 Will.I.am - Get Ya Money ( Co-Produced for Richard Vission ).mp3',
             'Dirtyfreqs + Vassy - T.U.T.P (Turn up th party) 4.5 EDIT 1.m4a',
             'THE MOMENT.m4a',
-            '2 Katy Perry - Kissed A Girl ( Co-Produced for Richard Vission ).mp3',
             'In My Dreams.m4a',
-            'Jason Robinson - Dark Mind.mp3',
-            '1 Weezer - Trouble Maker ( Co-Produced for Richard Vission ).mp3',
             'Forever young.mp3',
-            '5 David May - Super Star ( Co-Produced for Richard Vission ).mp3',
             'Without you.mp3',
             'JC Like this Final MSTR 0517 0828.mp3',
-            'Turn Up The Bass.mp3',
-            '9 One Republic - Apologize ( Co-Produced for Richard Vission ).mp3'
+            'Turn Up The Bass.mp3'
         ]
     },
     {
@@ -178,7 +155,18 @@ window.musicCatalog = [
             '6 Jonathan Davis - Got Money - ( Dirty Fr3qs Remix ).mp3',
             'Ciara "Body Party" (Dave Audé Radio).mp3',
             '17 Paul Oakenfold - Sleeping Satellite ( Dirty Freqs Remix ).mp3',
-            'Making Paper (Ikon Remix).m4a'
+            'Making Paper (Ikon Remix).m4a',
+            '10 Hilary Duff - Anyday ( Co-Produced for Richard Vission ).mp3',
+            '7 Eva Simons - Silly Boy ( Co-Produced for Richard Vission ).mp3',
+            '8 Pussycat Dolls - Bottle Pop ( Co-Produced for Richard Vission ).mp3',
+            '4 U2 - Magnificent - ( Co-Produced for Richard Vission ).mp3',
+            '11 Morning After - Richard Vission Remix.mp3',
+            '3 Hilary Duff - Reach Out ( Co-Produced for Richard Vission ).mp3',
+            '6 Will.I.am - Get Ya Money ( Co-Produced for Richard Vission ).mp3',
+            '2 Katy Perry - Kissed A Girl ( Co-Produced for Richard Vission ).mp3',
+            '1 Weezer - Trouble Maker ( Co-Produced for Richard Vission ).mp3',
+            '5 David May - Super Star ( Co-Produced for Richard Vission ).mp3',
+            '9 One Republic - Apologize ( Co-Produced for Richard Vission ).mp3'
         ]
     }
 ];
