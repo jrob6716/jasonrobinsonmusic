@@ -19,7 +19,7 @@
     --header-height: 72px;
     --gutter: clamp(1.25rem, 3.2vw, 4rem);
     --section-space: clamp(5rem, 10vw, 10rem);
-    --section-heading-gap: clamp(1.5rem, 3vw, 3rem);
+    --section-heading-gap: clamp(1rem, 2vw, 2rem);
 }
 
 html {
