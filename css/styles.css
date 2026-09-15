@@ -19,6 +19,7 @@
     --header-height: 72px;
     --gutter: clamp(1.25rem, 3.2vw, 4rem);
     --section-space: clamp(5rem, 10vw, 10rem);
+    --section-heading-gap: clamp(1.5rem, 3vw, 3rem);
 }
 
 html {
@@ -460,7 +461,7 @@ ul { list-style: none; }
 
 .section-intro {
     max-width: 720px;
-    margin: clamp(2.5rem, 5vw, 5rem) 0 clamp(3rem, 6vw, 6rem) auto;
+    margin: var(--section-heading-gap) 0 clamp(3rem, 6vw, 6rem) auto;
     text-align: left;
 }
 
@@ -1004,7 +1005,7 @@ ul { list-style: none; }
 }
 
 .contact-section .section-heading { border-color: var(--ink); }
-.contact-content { max-width: 900px; margin: clamp(3rem, 6vw, 6rem) 0 0 auto; text-align: left; }
+.contact-content { max-width: 900px; margin: var(--section-heading-gap) 0 0 auto; text-align: left; }
 .contact-text { max-width: 650px; font-size: clamp(1.5rem, 3vw, 3rem); line-height: 1.15; }
 .contact-info { margin-block: clamp(2rem, 4vw, 4rem); }
 .contact-link {
