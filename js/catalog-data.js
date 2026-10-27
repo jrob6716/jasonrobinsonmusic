@@ -7,13 +7,20 @@ window.musicCatalog = [
             'Love somebody.m4a',
             'Wish you were here.mp3',
             'Phases .mp3',
-            'Ride.mp3'
+            'Ride.mp3',
+            'Serene dream.mp3'
         ]
     },
     {
-        category: 'Rock, Indie & Alternative',
+        category: 'Pop | Indie | Rock',
         files: [
-            'See me Falling.mp3'
+            'See me Falling.mp3',
+            'Dreamers unafraid.mp3',
+            'Lost with you .mp3',
+            'Tell Me .mp3',
+            'OPEN HEART JR .m4a',
+            'BIG POP DRUMS JR .m4a',
+            'The Nightscape.m4a'
         ]
     },
     {
@@ -48,27 +55,12 @@ window.musicCatalog = [
         ]
     },
     {
-        category: 'Synth Pop & Indie Electronic',
-        files: [
-            'Dreamers unafraid.mp3',
-            'Lost with you .mp3',
-            'Tell Me .mp3',
-            'PARACHUTE DA JR.m4a',
-            'OPEN HEART JR .m4a',
-            'FOSTER M83 JR.m4a',
-            'BIG POP DRUMS JR .m4a'
-        ]
-    },
-    {
         category: 'Electronic & Ambient',
         files: [
             'Prism.mp3',
-            'Tribalskunk.mp3',
-            'Halibut.mp3',
             'Sigmatic.mp3',
-            'Advanced Stimulation Chill.mp3',
-            'Aum.mp3',
-            'Transbient.mp3'
+            'Advanced Stimulation.mp3',
+            'Bass Gorilla .mp3'
         ]
     },
     {
@@ -77,13 +69,13 @@ window.musicCatalog = [
             'Kickdrum .m4a',
             'Big Fun.m4a',
             'IN MY UNIVERSE.m4a',
-            'Dirtyfreqs + Vassy - T.U.T.P (Turn up th party) 4.5 EDIT.m4a',
             'THE MOMENT.m4a',
             'In My Dreams.m4a',
             'Forever young.mp3',
             'Without you.mp3',
             'Like this.mp3',
-            'Turn Up The Bass.mp3'
+            'Turn Up The Bass.mp3',
+            'Turn up the Party.m4a'
         ]
     },
     {
@@ -100,7 +92,7 @@ window.musicCatalog = [
             'Bullet (Ikon And Exodus Remix).mp3',
             'Electricity & Drums (Bad Boy) (DJ Ikon Club).mp3',
             '1 Richard Vission & Static Revenger Ft. Luciana - I Like That ( Dirty Freqs Remix ).mp3',
-            "London Rose- Kick Drum (Dave Aude' Radio Mix).mp3",
+            'London Rose- Kick Drum (Dave Aude\' Radio Mix).mp3',
             'Dave Audé ft Cierra Sample in "CIRCLES".mp3',
             'Mayra Veronica - Ay Mama Mia (Dave Audé Radio Edit).mp3',
             '7 Tiff Lacey - What You Do For Me ( Dirty Freqs ).mp3',
@@ -112,7 +104,7 @@ window.musicCatalog = [
             'Lance Bass & Anise K ft Bella Blue "Walking On Air" (Dave Audé Radio).mp3',
             'Five Knives -The Rising (Dave Aude Radio Mix).mp3',
             'LeAnn Rimes "Carol Of The Bells".mp3',
-            "Dave Audé ft Andy Bell - Aftermath (Here We Go) (Dave's Afterhours Remix).mp3",
+            'Dave Audé ft Andy Bell - Aftermath (Here We Go) (Dave\'s Afterhours Remix).mp3',
             'If I Lose Myself Tonight (DJ Ikon Remix).mp3',
             'Ella Henderson "Ghost" (Dave Audé Remix).mp3',
             '14 Keri Hilson - Energy ( Dirty Freqs Remix ).mp3',
