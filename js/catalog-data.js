@@ -4,7 +4,7 @@ window.musicCatalog = [
         files: [
             'Creep Trailer .mp3',
             'Send Me an Angel Trailer.mp3',
-            'Love somebody Acoustic Master.m4a',
+            'Love somebody.m4a',
             'Wish you were here.mp3',
             'Phases .mp3',
             'Ride.mp3'
@@ -19,21 +19,10 @@ window.musicCatalog = [
     {
         category: 'Sophisticated Grooves',
         files: [
-            'step up.MP3',
-            'cat and mouse REF JR .mp3',
-            'Society.mp3',
-            'jus another beat.mp3',
-            'Jiggy Rock.mp3',
+            'Cat and Mouse.mp3',
             'Whoop whoop .mp3',
-            'Roscoes Frestyle.wav',
             'Island Fever.wav',
-            'Illdrumz2.mp3',
-            'da joint.mp3',
-            'Better Daze.mp3',
-            'church jam.mp3',
             'Mitsubishi .mp3',
-            'MJ soul.mp3',
-            "stabbin' neverending loop.wav",
             'Promises .mp3'
         ]
     },
@@ -75,7 +64,6 @@ window.musicCatalog = [
         files: [
             'Prism.mp3',
             'Tribalskunk.mp3',
-            'Jason Robinson - Avanced Stimulation.mp3',
             'Halibut.mp3',
             'Sigmatic.mp3',
             'Advanced Stimulation Chill.mp3',
@@ -86,16 +74,15 @@ window.musicCatalog = [
     {
         category: 'Dance & Club',
         files: [
-            'LONDON ROSE KICKDRUM IKON FINAL RADIO.m4a',
+            'Kickdrum .m4a',
             'Big Fun.m4a',
             'IN MY UNIVERSE.m4a',
             'Dirtyfreqs + Vassy - T.U.T.P (Turn up th party) 4.5 EDIT.m4a',
-            'Dirtyfreqs + Vassy - T.U.T.P (Turn up th party) 4.5 EDIT 1.m4a',
             'THE MOMENT.m4a',
             'In My Dreams.m4a',
             'Forever young.mp3',
             'Without you.mp3',
-            'JC Like this Final MSTR 0517 0828.mp3',
+            'Like this.mp3',
             'Turn Up The Bass.mp3'
         ]
     },
