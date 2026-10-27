@@ -2,8 +2,8 @@ window.musicCatalog = [
     {
         category: 'Cinematic & Emotional',
         files: [
-            'Creep Trailer .mp3',
             'Send Me an Angel Trailer.mp3',
+            'Creep Trailer .mp3',
             'Love somebody.m4a',
             'Wish you were here.mp3',
             'Phases .mp3',
