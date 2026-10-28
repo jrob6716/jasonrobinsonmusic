@@ -1162,20 +1162,19 @@ ul { list-style: none; }
     .motion-ready .reveal-item { opacity: 1; transform: none; transition-delay: 0s; }
 }
 
-/* Social campaigns: one project with a featured portrait video and optional examples. */
-.campaign-feature { display: grid; grid-template-columns: 1fr minmax(0, 340px); gap: clamp(2rem, 6vw, 6rem); align-items: center; }
+/* Social campaign carousel */
+.campaign-feature { display: grid; grid-template-columns: 1fr minmax(0, 440px); gap: clamp(2rem, 6vw, 6rem); align-items: center; }
 .campaign-title { font-family: var(--display); font-size: clamp(2rem, 4vw, 4rem); margin: 0 0 1rem; }
 .campaign-count { display: block; margin-top: 1.5rem; font-size: .8rem; letter-spacing: .12em; text-transform: uppercase; }
+.campaign-carousel { min-width: 0; width: 100%; }
+.campaign-carousel-row { display: grid; grid-template-columns: 44px minmax(0, 340px) 44px; gap: 6px; align-items: center; }
 .campaign-video { aspect-ratio: 9 / 16; background: #000; overflow: hidden; }
 .campaign-video video { display: block; width: 100%; height: 100%; object-fit: contain; }
-.campaign-more { margin-top: 2rem; border-top: 1px solid var(--line-light); }
-.campaign-more summary { cursor: pointer; padding: 1.5rem 0; font-size: 1rem; }
-.campaign-more summary span { float: right; }
-.campaign-more[open] summary span { transform: rotate(45deg); }
-.campaign-video-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.5rem; padding-bottom: 1rem; }
+.campaign-arrow { width: 44px; height: 44px; border: 1px solid var(--line-light); background: transparent; color: inherit; font-size: 1.5rem; cursor: pointer; }
+.campaign-arrow:hover { background: var(--signal); color: var(--white); }
+.campaign-arrow:focus-visible { outline: 2px solid var(--signal); outline-offset: 3px; }
+.campaign-position { text-align: center; margin: 1rem 0 0; font-size: .8rem; letter-spacing: .12em; text-transform: uppercase; }
 @media (max-width: 700px) {
  .campaign-feature { grid-template-columns: 1fr; }
- .campaign-feature > .campaign-video { width: 100%; max-width: 340px; justify-self: center; }
- .campaign-video-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .75rem; }
+ .campaign-carousel { max-width: 440px; justify-self: center; }
 }
-@media (max-width: 380px) { .campaign-video-grid { grid-template-columns: 1fr; } }

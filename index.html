@@ -184,18 +184,15 @@
                         <p class="intro-text">Music for a series of social campaign videos.</p>
                         <span class="campaign-count">One campaign · Six videos</span>
                     </div>
-                    <div class="campaign-video"><video controls playsinline preload="none" poster="media/campaigns/murcielago/campaign-01.jpg" aria-label="Murciélago Tequila — campaign video 1"><source src="media/campaigns/murcielago/campaign-01.mp4" type="video/mp4">Your browser does not support embedded video.</video></div>
-                </div>
-                <details class="campaign-more">
-                    <summary>View more campaign videos <span aria-hidden="true">+</span></summary>
-                    <div class="campaign-video-grid">
-                        <div class="campaign-video"><video controls playsinline preload="none" poster="media/campaigns/murcielago/campaign-02.jpg" aria-label="Murciélago Tequila — campaign video 2"><source src="media/campaigns/murcielago/campaign-02.mp4" type="video/mp4">Your browser does not support embedded video.</video></div>
-                        <div class="campaign-video"><video controls playsinline preload="none" poster="media/campaigns/murcielago/campaign-03.jpg" aria-label="Murciélago Tequila — campaign video 3"><source src="media/campaigns/murcielago/campaign-03.mp4" type="video/mp4">Your browser does not support embedded video.</video></div>
-                        <div class="campaign-video"><video controls playsinline preload="none" poster="media/campaigns/murcielago/campaign-04.jpg" aria-label="Murciélago Tequila — campaign video 4"><source src="media/campaigns/murcielago/campaign-04.mp4" type="video/mp4">Your browser does not support embedded video.</video></div>
-                        <div class="campaign-video"><video controls playsinline preload="none" poster="media/campaigns/murcielago/campaign-05.jpg" aria-label="Murciélago Tequila — campaign video 5"><source src="media/campaigns/murcielago/campaign-05.mp4" type="video/mp4">Your browser does not support embedded video.</video></div>
-                        <div class="campaign-video"><video controls playsinline preload="none" poster="media/campaigns/murcielago/campaign-06.jpg" aria-label="Murciélago Tequila — campaign video 6"><source src="media/campaigns/murcielago/campaign-06.mp4" type="video/mp4">Your browser does not support embedded video.</video></div>
+                    <div class="campaign-carousel" data-campaign-carousel role="region" aria-roledescription="carousel" aria-label="Murciélago Tequila campaign videos">
+                        <div class="campaign-carousel-row">
+                            <button class="campaign-arrow" type="button" data-campaign-previous aria-label="Previous campaign video">&#8592;</button>
+                            <div class="campaign-video"><video controls playsinline preload="none" poster="media/campaigns/murcielago/campaign-01.jpg" aria-label="Murciélago Tequila — campaign video 1"><source src="media/campaigns/murcielago/campaign-01.mp4" type="video/mp4">Your browser does not support embedded video.</video></div>
+                            <button class="campaign-arrow" type="button" data-campaign-next aria-label="Next campaign video">&#8594;</button>
+                        </div>
+                        <p class="campaign-position" data-campaign-position aria-live="polite" aria-atomic="true">Video 1 of 6</p>
                     </div>
-                </details>
+                </div>
             </div>
 
             <!-- Custom Compositions is intentionally unpublished until a protected portfolio is added. -->
@@ -433,5 +430,6 @@
 
     <script src="js/catalog-data.js"></script>
     <script src="js/script.js"></script>
+    <script src="js/campaign-carousel.js"></script>
 </body>
 </html>
