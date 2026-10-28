@@ -1178,3 +1178,18 @@ ul { list-style: none; }
  .campaign-feature { grid-template-columns: 1fr; }
  .campaign-carousel { max-width: 440px; justify-self: center; }
 }
+
+@media (min-width: 701px) {
+    .campaign-carousel-row { grid-template-columns: 48px minmax(0, 340px) 48px; gap: 2px; }
+    .campaign-arrow {
+        width: 48px;
+        height: 56px;
+        border: 2px solid var(--signal);
+        background: var(--signal);
+        color: var(--white);
+        font-size: 2rem;
+        font-weight: 700;
+        box-shadow: 0 4px 14px rgba(0, 0, 0, .2);
+    }
+    .campaign-arrow:hover { background: var(--ink); border-color: var(--ink); }
+}
