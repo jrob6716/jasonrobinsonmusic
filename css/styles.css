@@ -1026,8 +1026,9 @@ ul { list-style: none; }
     background: var(--ink);
     text-align: left;
 }
-.footer .container { max-width: none; padding: 0; }
+.footer .container { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: .75rem 2rem; max-width: none; padding: 0; }
 .footer p { color: var(--muted); font-size: .75rem; letter-spacing: .12em; text-transform: uppercase; }
+.footer .footer-credit { margin-left: auto; text-align: right; }
 
 .skip-link {
     position: fixed !important;
