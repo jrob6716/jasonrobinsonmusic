@@ -53,12 +53,12 @@ window.musicCatalog = [
                 file: 'Physical Attraction.m4a',
                 title: 'Physical Attraction'
             },
-            '  Memories.mp3',
-            '  Bad for U.mp3',
-            '  Urgent.mp3',
-            '  Body Talk.mp3',
-            '  Purified.mp3',
-            '  Hey Man.mp3'
+            'Memories.mp3',
+            'Bad for me.mp3',
+            'Urgent.mp3',
+            'Body Talk.mp3',
+            'Just Chill.mp3',
+            'Hey Man.mp3'
         ]
     },
     {
