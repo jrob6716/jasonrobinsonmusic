@@ -37,7 +37,10 @@ window.musicCatalog = [
     {
         category: 'Hip Hop & Pop',
         files: [
-            'No Good.mp3',
+            'Memories of you.mp3',
+            'Just Chill.mp3',
+            'Bad for me.mp3',
+            'Shes Poison.mp3',
             {
                 file: 'Insomnia_V1_RichardVission_Bianca_LorenMoore_JR._JBmp3.mp3',
                 title: 'Insomnia'
@@ -46,7 +49,10 @@ window.musicCatalog = [
             'Tough Love .m4a',
             'Karma .mp3',
             'Do Sexy .m4a',
-            'Patience_V2D.mp3',
+            {
+                file: 'Patience_V2D.mp3',
+                title: 'Patience'
+            },
             'Eyes.mp3',
             'Breathless.mp3',
             {
@@ -54,12 +60,8 @@ window.musicCatalog = [
                 title: 'Physical Attraction'
             },
             'Memories.mp3',
-            'Bad for me.mp3',
-            'Shes Poison.mp3',
             'Body Talk.mp3',
-            'Just Chill.mp3',
             'Hey Man.mp3',
-            'Memories of you.mp3'
         ]
     },
     {
