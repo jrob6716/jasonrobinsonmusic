@@ -62,6 +62,7 @@ window.musicCatalog = [
             'Memories.mp3',
             'Body Talk.mp3',
             'Hey Man.mp3',
+            'Lets Talk.mp3'
         ]
     },
     {
