@@ -1,5 +1,36 @@
 window.musicCatalog = [
     {
+        category: 'Hip Hop & Pop',
+        files: [
+            'Memories of you.mp3',
+            'Just Chill.mp3',
+            'Bad for me.mp3',
+            'Shes Poison.mp3',
+            'Let your body Talk.mp3',
+            {
+                file: 'Insomnia_V1_RichardVission_Bianca_LorenMoore_JR._JBmp3.mp3',
+                title: 'Insomnia'
+            },
+            'Obsessed.mp3',
+            'Tough Love .m4a',
+            'Karma .mp3',
+            'Do Sexy .m4a',
+            {
+                file: 'Patience_V2D.mp3',
+                title: 'Patience'
+            },
+            'Eyes.mp3',
+            'Breathless.mp3',
+            {
+                file: 'Physical Attraction.m4a',
+                title: 'Physical Attraction'
+            },
+            'Memories.mp3',
+            'Hey Man.mp3',
+            'Lets Talk.mp3'
+        ]
+    },
+    {
         category: 'Cinematic & Emotional',
         files: [
             'Send Me an Angel Trailer.mp3',
@@ -32,37 +63,6 @@ window.musicCatalog = [
             'Mitsubishi .mp3',
             'Promises .mp3',
             'Dont do it.mp3'
-        ]
-    },
-    {
-        category: 'Hip Hop & Pop',
-        files: [
-            'Memories of you.mp3',
-            'Just Chill.mp3',
-            'Bad for me.mp3',
-            'Shes Poison.mp3',
-            'Let your body Talk.mp3',
-            {
-                file: 'Insomnia_V1_RichardVission_Bianca_LorenMoore_JR._JBmp3.mp3',
-                title: 'Insomnia'
-            },
-            'Obsessed.mp3',
-            'Tough Love .m4a',
-            'Karma .mp3',
-            'Do Sexy .m4a',
-            {
-                file: 'Patience_V2D.mp3',
-                title: 'Patience'
-            },
-            'Eyes.mp3',
-            'Breathless.mp3',
-            {
-                file: 'Physical Attraction.m4a',
-                title: 'Physical Attraction'
-            },
-            'Memories.mp3',
-            'Hey Man.mp3',
-            'Lets Talk.mp3'
         ]
     },
     {
