@@ -60,7 +60,7 @@ window.musicCatalog = [
                 title: 'Physical Attraction'
             },
             'Memories.mp3',
-            'Body Talk.mp3',
+            'Let your body Talk.mp3',
             'Hey Man.mp3',
             'Lets Talk.mp3'
         ]
