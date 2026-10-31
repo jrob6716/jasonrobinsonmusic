@@ -58,7 +58,8 @@ window.musicCatalog = [
             'Shes Poison.mp3',
             'Body Talk.mp3',
             'Just Chill.mp3',
-            'Hey Man.mp3'
+            'Hey Man.mp3',
+            'Memories of you.mp3'
         ]
     },
     {
