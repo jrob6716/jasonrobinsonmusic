@@ -56,7 +56,7 @@
     function render() {
         const focused = document.activeElement;
         const focusedTrack = focused?.closest('.track')?.dataset.id;
-        const focusedControl = focused?.classList.contains('heart') ? '.heart' : focused?.classList.contains('track-info') ? '.track-info' : '.track-play';
+        const focusedControl = focused?.classList.contains('track-share') ? '.track-share' : focused?.classList.contains('heart') ? '.heart' : focused?.classList.contains('track-info') ? '.track-info' : '.track-play';
         const filtered = visible();
         $('list-title').textContent = category;
         $('result-count').textContent = `${filtered.length} ${filtered.length === 1 ? 'TRACK' : 'TRACKS'}`;
@@ -71,7 +71,13 @@
             const heart = document.createElement('button'); heart.className = `heart${favorites.has(track.id) ? ' liked' : ''}`; heart.setAttribute('aria-label', heartLabel(track)); heart.setAttribute('aria-pressed', String(favorites.has(track.id))); heart.disabled = pendingHearts.has(track.id); heart.append(document.createTextNode(favorites.has(track.id) ? '♥' : '♡'));
             if (totals[track.id]) { const count = document.createElement('small'); count.textContent = number(totals[track.id].hearts); heart.append(count); }
             heart.onclick = () => favorite(track);
-            row.append(play, info, plays, heart); $('track-list').append(row);
+            const shareButton = document.createElement('button');
+            shareButton.className = 'track-share';
+            shareButton.setAttribute('aria-label', `Share ${track.title}`);
+            shareButton.title = `Share ${track.title}`;
+            shareButton.innerHTML = '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M12 15V3m-4 4 4-4 4 4M5 12v8h14v-8"/></svg><span>Share</span>';
+            shareButton.onclick = () => share(track);
+            row.append(play, info, plays, heart, shareButton); $('track-list').append(row);
         });
         updateCurrentHeart();
         if (focusedTrack) Array.from($('track-list').children).find(row => row.dataset.id === focusedTrack)?.querySelector(focusedControl)?.focus({preventScroll:true});
@@ -114,14 +120,14 @@
     }
     function toggle() { if (!current) { queue = visible(); load(queue[0], true); } else if (audio.paused) startPlayback(); else audio.pause(); }
     function skip(direction) { if (!queue.length) queue = [...tracks]; const i = queue.findIndex(t => t.id === current?.id); load(queue[(i + direction + queue.length) % queue.length], true); }
-    async function share(trackOnly) {
+    async function share(track = null) {
         const url = new URL(location.href); url.search = ''; url.hash = '';
-        if (trackOnly && current) url.searchParams.set('track', current.id);
-        const data = {title: trackOnly && current ? `${current.title} — Dirtyfreqs Media` : 'Listen — Dirtyfreqs Media', url:url.href};
+        if (track) url.searchParams.set('track', track.id);
+        const data = {title: track ? `${track.title} — Dirtyfreqs Media` : 'Listen — Dirtyfreqs Media', url:url.href};
         try { if (navigator.share) await navigator.share(data); else { await navigator.clipboard.writeText(data.url); toast('Link copied. Ready to share.'); } } catch (error) { if (error.name !== 'AbortError') toast('Copy the page address from your browser to share.'); }
     }
     $('search').oninput = render; $('play').onclick = toggle; $('start').onclick = () => { queue = visible(); load(queue[0], true); }; $('previous').onclick = () => skip(-1); $('next').onclick = () => skip(1); $('now-heart').onclick = () => current && favorite(current);
-    $('share').onclick = () => share(false); $('share-track').onclick = () => share(true);
+    $('share').onclick = () => share(); $('share-track').onclick = () => share(current);
     $('volume').oninput = () => { audio.volume = Number($('volume').value); };
     $('seek').oninput = () => { if (Number.isFinite(audio.duration)) { audio.currentTime = Number($('seek').value) / 100 * audio.duration; lastTime = audio.currentTime; } };
     audio.addEventListener('play', state); audio.addEventListener('pause', state);
