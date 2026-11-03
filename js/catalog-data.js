@@ -3,10 +3,11 @@ window.musicCatalog = [
         category: 'Hip Hop & Pop',
         files: [
             'Memories of you.mp3',
+            'Let your body Talk.mp3',
             'Just Chill.mp3',
             'Bad for me.mp3',
+            'Lets Talk.mp3',
             'Shes Poison.mp3',
-            'Let your body Talk.mp3',
             {
                 file: 'Insomnia_V1_RichardVission_Bianca_LorenMoore_JR._JBmp3.mp3',
                 title: 'Insomnia'
@@ -26,8 +27,7 @@ window.musicCatalog = [
                 title: 'Physical Attraction'
             },
             'Memories.mp3',
-            'Hey Man.mp3',
-            'Lets Talk.mp3'
+            'Hey Man.mp3'
         ]
     },
     {
