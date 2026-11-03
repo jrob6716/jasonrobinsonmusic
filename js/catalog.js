@@ -21,9 +21,6 @@
     let current = null;
     let queue = [...tracks];
     let totals = {};
-    let counted = false;
-    let listened = 0;
-    let lastTime = 0;
     let toastTimer;
     const pendingHearts = new Set();
     const format = (seconds) => Number.isFinite(seconds) ? `${Math.floor(seconds / 60)}:${String(Math.floor(seconds % 60)).padStart(2, '0')}` : '0:00';
@@ -67,7 +64,6 @@
             const play = document.createElement('button'); play.className = 'track-play'; play.textContent = current?.id === track.id && !audio.paused ? 'Ⅱ' : String(index + 1).padStart(2, '0'); play.setAttribute('aria-label', `${current?.id === track.id && !audio.paused ? 'Pause' : 'Play'} ${track.title}`);
             const info = document.createElement('button'); info.className = 'track-info'; const title = document.createElement('strong'); title.textContent = track.title; const genre = document.createElement('small'); genre.textContent = track.category; info.append(title, genre); info.setAttribute('aria-label', `Play ${track.title}`);
             play.onclick = info.onclick = () => { if (current?.id === track.id) toggle(); else { queue = [...filtered]; load(track, true); } };
-            const plays = document.createElement('span'); plays.className = 'plays'; plays.textContent = totals[track.id] ? `▷ ${number(totals[track.id].plays)}` : '▷ —'; plays.title = totals[track.id] ? `${totals[track.id].plays} plays` : 'Play counts unavailable';
             const heart = document.createElement('button'); heart.className = `heart${favorites.has(track.id) ? ' liked' : ''}`; heart.setAttribute('aria-label', heartLabel(track)); heart.setAttribute('aria-pressed', String(favorites.has(track.id))); heart.disabled = pendingHearts.has(track.id); heart.append(document.createTextNode(favorites.has(track.id) ? '♥' : '♡'));
             if (totals[track.id]) { const count = document.createElement('small'); count.textContent = number(totals[track.id].hearts); heart.append(count); }
             heart.onclick = () => favorite(track);
@@ -77,7 +73,7 @@
             shareButton.title = `Share ${track.title}`;
             shareButton.innerHTML = '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M12 15V3m-4 4 4-4 4 4M5 12v8h14v-8"/></svg><span>Share</span>';
             shareButton.onclick = () => share(track);
-            row.append(play, info, plays, heart, shareButton); $('track-list').append(row);
+            row.append(play, info, heart, shareButton); $('track-list').append(row);
         });
         updateCurrentHeart();
         if (focusedTrack) Array.from($('track-list').children).find(row => row.dataset.id === focusedTrack)?.querySelector(focusedControl)?.focus({preventScroll:true});
@@ -110,7 +106,7 @@
     async function startPlayback() { $('status').textContent = ''; try { await audio.play(); } catch { $('status').textContent = 'Playback could not start. Tap play to try again.'; } }
     function load(track, autoplay) {
         if (!track) return;
-        current = track; counted = false; listened = 0; lastTime = 0;
+        current = track;
         audio.src = track.src; audio.load();
         $('now-title').textContent = track.title; $('now-category').textContent = track.category.toUpperCase();
         $('elapsed').textContent = $('duration').textContent = '0:00'; $('seek').value = 0; $('status').textContent = '';
@@ -129,23 +125,17 @@
     $('search').oninput = render; $('play').onclick = toggle; $('start').onclick = () => { queue = visible(); load(queue[0], true); }; $('previous').onclick = () => skip(-1); $('next').onclick = () => skip(1); $('now-heart').onclick = () => current && favorite(current);
     $('share').onclick = () => share(); $('share-track').onclick = () => share(current);
     $('volume').oninput = () => { audio.volume = Number($('volume').value); };
-    $('seek').oninput = () => { if (Number.isFinite(audio.duration)) { audio.currentTime = Number($('seek').value) / 100 * audio.duration; lastTime = audio.currentTime; } };
+    $('seek').oninput = () => { if (Number.isFinite(audio.duration)) { audio.currentTime = Number($('seek').value) / 100 * audio.duration; } };
     audio.addEventListener('play', state); audio.addEventListener('pause', state);
     audio.addEventListener('loadedmetadata', () => { $('duration').textContent = format(audio.duration); });
-    audio.addEventListener('seeking', () => { lastTime = audio.currentTime; });
     audio.addEventListener('timeupdate', () => {
         $('elapsed').textContent = format(audio.currentTime); $('seek').value = audio.duration ? audio.currentTime / audio.duration * 100 : 0;
-        const delta = audio.currentTime - lastTime; if (!audio.paused && delta > 0 && delta < 2) listened += delta; lastTime = audio.currentTime;
-        if (connected && !counted && listened >= Math.min(30, audio.duration / 2)) {
-            counted = true; const id = current.id;
-            rpc('catalog_play', {track_id:id, listener_id:visitor}).then(result => { totals[id] = result; render(); }).catch(() => { $('stats-note').textContent = 'Shared activity is temporarily unavailable.'; });
-        }
     });
     audio.addEventListener('ended', () => skip(1));
     audio.addEventListener('error', () => { $('status').textContent = 'This track could not load. Tap play to retry, or choose another track.'; });
     if ('mediaSession' in navigator) { navigator.mediaSession.setActionHandler('play', startPlayback); navigator.mediaSession.setActionHandler('pause', () => audio.pause()); navigator.mediaSession.setActionHandler('previoustrack', () => skip(-1)); navigator.mediaSession.setActionHandler('nexttrack', () => skip(1)); }
     renderCategories(); render();
     const requested = new URL(location.href).searchParams.get('track'); load(tracks.find(t => t.id === requested) || tracks[0], false);
-    $('stats-note').textContent = connected ? 'Plays count after 30 seconds of listening, or halfway through shorter tracks.' : 'Favorites are saved on this device. Shared activity is not connected yet.';
+    $('stats-note').textContent = connected ? '' : 'Favorites are saved on this device.';
     if (connected) rpc('catalog_totals', {}).then(result => { totals = Object.fromEntries(result.map(t => [t.track_id, t])); render(); }).catch(() => { $('stats-note').textContent = 'Shared activity is temporarily unavailable. Please refresh to retry.'; });
 })();
