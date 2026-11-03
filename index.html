@@ -26,7 +26,7 @@
                 <li><a href="#sync-portfolio" class="nav-link">Sync &amp; Campaigns</a></li>
                 <li><a href="#discography" class="nav-link">Production Credits</a></li>
                 <li><a href="#music-tracks" class="nav-link">Production Library</a></li>
-                <li><a href="#music-catalog" class="nav-link">Music Catalog</a></li>
+                <li><a href="catalog/" class="nav-link">Music Catalog</a></li>
                 <li class="nav-contact">
                     <a href="#contact" class="nav-link">Contact</a>
                     <a href="https://www.instagram.com/jayrobmusic/" class="nav-instagram" aria-label="Jason Robinson on Instagram" target="_blank" rel="noopener noreferrer">
@@ -41,13 +41,38 @@
         </nav>
     </header>
 
+    <!-- Featured Listening Room -->
+    <section id="home" class="frequency-feature" aria-labelledby="frequency-title">
+        <div id="music-catalog" class="frequency-content container">
+            <div class="frequency-copy">
+                <p class="frequency-kicker">Jason Robinson / The Music Catalog</p>
+                <h1 id="frequency-title">Find your<br><span>frequency.</span></h1>
+                <p class="frequency-description">Original productions. Cinematic worlds. After-hours energy. <br>Press play and find what moves you.</p>
+                <div class="frequency-actions">
+                    <a href="catalog/" class="frequency-listen"><span aria-hidden="true">▶</span> Explore the catalog <span aria-hidden="true">↗</span></a>
+                    <a href="#about" class="frequency-about">Meet the producer <span aria-hidden="true">↓</span></a>
+                </div>
+                <p class="frequency-footnote">A full spectrum of sound. One place to listen.</p>
+            </div>
+            <a href="catalog/" class="frequency-art" aria-label="Open the Dirtyfreqs music catalog">
+                <img src="images/catalog-photo.jpg" alt="Jason Robinson at work in the studio" fetchpriority="high">
+                <span class="frequency-art-label">Dirtyfreqs Media<br>Selected works / Vol. 01</span>
+                <span class="frequency-monogram" aria-hidden="true">DF<span>●</span></span>
+                <span class="frequency-art-footer"><span>Produced by Jason Robinson</span><span>Listen now ↗</span></span>
+            </a>
+        </div>
+        <div class="frequency-strip container" aria-label="Featured music genres">
+            <span>Hip Hop &amp; Pop</span><span>Cinematic</span><span>Indie &amp; Rock</span><span>Electronic</span><span>Dance &amp; Club</span><span>Remixes</span>
+        </div>
+    </section>
+
     <!-- Hero Section -->
-    <section id="home" class="hero">
+    <section id="about" class="hero">
         <div class="hero-backdrop" aria-hidden="true"></div>
         <div class="hero-content container">
             <div class="hero-copy">
                 <p class="hero-index">Independent music / Los Angeles</p>
-                <h1 class="hero-title"><span>Jason</span><span>Robinson</span></h1>
+                <h2 class="hero-title"><span>Jason</span><span>Robinson</span></h2>
                 <div class="hero-details">
                     <div>
                         <button class="hero-subtitle hero-award-trigger" type="button"
@@ -326,87 +351,11 @@
         </div>
     </section>
 
-    <section id="music-catalog" class="catalog-section">
-        <div class="container">
-            <div class="section-heading">
-                <span class="section-number">04</span>
-                <h2 class="section-title">Catalog</h2>
-            </div>
-            <div class="section-intro catalog-intro">
-                <span class="wip-badge"><span aria-hidden="true"></span> Work in Progress</span>
-                <p class="intro-text">
-                    A growing selection of original songs and media-ready compositions. New music is being added regularly.
-                    <a href="catalog/" style="display: inline-block; margin-top: .75rem; color: var(--signal);">Open the full listening room ↗</a>
-                </p>
-            </div>
-
-            <div class="catalog-browser" data-catalog-player>
-                <div class="catalog-toolbar">
-                    <div class="catalog-category-browser" data-category-browser>
-                        <div class="catalog-category-hint" aria-hidden="true">
-                            <span>Browse genres</span>
-                            <span>Swipe →</span>
-                        </div>
-                        <button class="catalog-scroll-button catalog-scroll-previous" type="button"
-                                data-category-previous aria-label="Show previous genres" hidden>←</button>
-                        <div class="catalog-categories" data-category-tabs role="tablist" aria-label="Catalog genres"></div>
-                        <button class="catalog-scroll-button catalog-scroll-next" type="button"
-                                data-category-next aria-label="Show more genres">→</button>
-                    </div>
-                    <label class="catalog-search">
-                        <span>Find a track</span>
-                        <input type="search" data-catalog-search placeholder="Search selected category" autocomplete="off">
-                    </label>
-                </div>
-
-                <div class="catalog-player">
-                    <div class="catalog-current">
-                    <div class="catalog-art" aria-hidden="true">
-                        <img src="images/catalog-photo.jpg" alt="">
-                        <span class="catalog-art-index" data-track-index>01 / 01</span>
-                    </div>
-                    <div class="catalog-now-playing">
-                        <span class="catalog-kicker">Now Playing</span>
-                        <h3 data-track-title>Loading Catalog</h3>
-                        <p data-track-category>Dirtyfreqs Media / Music Catalog</p>
-                    </div>
-
-                    <audio id="catalog-audio" preload="metadata"></audio>
-
-                    <div class="catalog-waveform" data-catalog-waveform aria-hidden="true"></div>
-
-                    <div class="catalog-controls">
-                        <button class="player-button player-skip" type="button" data-previous aria-label="Play previous track">←</button>
-                        <button class="player-button player-toggle" type="button" data-play aria-label="Play Forever Young">Play</button>
-                        <button class="player-button player-skip" type="button" data-next aria-label="Play next track">→</button>
-                    </div>
-
-                    <div class="catalog-timeline">
-                        <span data-current-time>0:00</span>
-                        <input type="range" min="0" max="100" value="0" step="0.1" data-progress aria-label="Track progress">
-                        <span data-duration>0:00</span>
-                    </div>
-                    <p class="catalog-status" data-player-status aria-live="polite"></p>
-                    </div>
-
-                    <div class="catalog-list-panel">
-                        <div class="catalog-list-heading">
-                            <span data-category-name>Hip Hop &amp; Pop</span>
-                            <span data-visible-count>0 tracks</span>
-                        </div>
-                        <div class="catalog-tracklist" data-tracklist role="list" aria-label="Music catalog tracks"></div>
-                        <p class="catalog-empty" data-catalog-empty hidden>No tracks match this search.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
     <!-- Contact Section -->
     <section id="contact" class="contact-section">
         <div class="container">
             <div class="section-heading">
-                <span class="section-number">05</span>
+                <span class="section-number">04</span>
                 <h2 class="section-title">Contact</h2>
             </div>
             <div class="contact-content">
@@ -430,7 +379,6 @@
         </div>
     </footer>
 
-    <script src="js/catalog-data.js?v=68fe87e1dca5"></script>
     <script src="js/script.js"></script>
     <script src="js/campaign-carousel.js"></script>
 </body>
