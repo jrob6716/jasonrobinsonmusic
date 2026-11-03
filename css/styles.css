@@ -1198,7 +1198,6 @@ ul { list-style: none; }
 
 /* Homepage listening-room feature */
 .frequency-feature {
-    padding-top: var(--header-height);
     background: var(--ink);
     border-bottom: 1px solid var(--line-dark);
 }
@@ -1220,7 +1219,7 @@ ul { list-style: none; }
     text-transform: uppercase;
 }
 .frequency-kicker { color: var(--muted); margin-bottom: 1.75rem; }
-.frequency-copy h1 {
+.frequency-copy h2 {
     font-family: var(--display);
     font-size: clamp(5rem, 8.5vw, 9rem);
     font-weight: 400;
@@ -1229,7 +1228,7 @@ ul { list-style: none; }
     margin-bottom: 1.75rem;
     text-transform: uppercase;
 }
-.frequency-copy h1 span { color: var(--signal); }
+.frequency-copy h2 span { color: var(--signal); }
 .frequency-description { color: #b5b5af; font-size: .9rem; line-height: 1.8; }
 .frequency-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 1.5rem; margin-top: 2rem; }
 .frequency-listen {
@@ -1259,13 +1258,9 @@ ul { list-style: none; }
 .frequency-art-footer { position: absolute; bottom: 1.5rem; left: 1.5rem; right: 1.5rem; z-index: 1; display: flex; justify-content: space-between; gap: 1rem; font-size: .5rem; letter-spacing: .1em; }
 .frequency-strip { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 1rem 2rem; padding-block: 1.25rem; border-top: 1px solid var(--line-dark); color: var(--muted); font-size: .6rem; }
 .frequency-feature a:focus-visible { outline: 2px solid var(--white); outline-offset: 6px; }
-/* The producer introduction follows the opening feature. */
-.hero { padding-top: 0; min-height: auto; }
-.hero-backdrop, .hero::after { inset: 0; }
-.hero-content { min-height: min(800px, 90svh); }
 @media (max-width: 900px) {
     .frequency-content { gap: 2rem; }
-    .frequency-copy h1 { font-size: clamp(4.5rem, 9vw, 6.5rem); }
+    .frequency-copy h2 { font-size: clamp(4.5rem, 9vw, 6.5rem); }
     .frequency-actions { gap: .75rem 1.25rem; }
     .frequency-description br { display: none; }
     .frequency-art-footer>span:first-child { display: none; }
@@ -1273,7 +1268,7 @@ ul { list-style: none; }
 @media (max-width: 600px) {
     .frequency-content { grid-template-columns: minmax(0, 1fr); gap: 2rem; padding-block: 2.5rem 1.75rem; }
     .frequency-kicker { font-size: .55rem; margin-bottom: 1.5rem; }
-    .frequency-copy h1 { font-size: clamp(4rem, 17vw, 6rem); margin-bottom: 1.25rem; }
+    .frequency-copy h2 { font-size: clamp(4rem, 17vw, 6rem); margin-bottom: 1.25rem; }
     .frequency-description { font-size: .8rem; }
     .frequency-actions { margin-top: 1.5rem; }
     .frequency-listen { padding: .9rem 1.1rem; gap: .75rem; font-size: .75rem; }
