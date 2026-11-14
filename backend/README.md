@@ -10,3 +10,8 @@ To activate shared activity:
 Play counts and client-side play tracking have been removed from the catalog. The SQL play functions are retained here for possible future use. The database accepts at most one play per track per anonymous browser identity in 30 minutes. Hearts are idempotent per browser identity. No account is required; clearing browser storage creates a new identity. These are engagement indicators, not fraud-proof audited streaming metrics.
 
 Without a configured database the page stores favorites locally and explains that they are saved on this device. New tracks must also be added to the database allowlist.
+
+## Private music
+
+The separate private player and upload/share admin use their own protected storage and
+backend. See [PRIVATE-MUSIC.md](PRIVATE-MUSIC.md) for activation and daily use.
