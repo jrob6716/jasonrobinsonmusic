@@ -5,6 +5,30 @@ let busy = false;
 let choiceOrder = [];
 let dialogTask;
 const dialog = $('manage-dialog');
+const mobile = matchMedia('(max-width: 700px)');
+let mobileView = 'songs';
+let statusTimer;
+document.body.dataset.mobileReady = 'true';
+function setAdminView(view, scroll = false) {
+    mobileView = view;
+    document.body.dataset.adminView = view;
+    document.querySelectorAll('.admin-nav a').forEach(link => {
+        const selected = link.dataset.adminView === view;
+        link.classList.toggle('active', selected);
+        if (mobile.matches && selected) link.setAttribute('aria-current','page');
+        else link.removeAttribute('aria-current');
+    });
+    if (scroll && mobile.matches) window.scrollTo({ top: 0, behavior: 'instant' });
+}
+document.querySelectorAll('.admin-nav a').forEach(link => link.addEventListener('click', event => {
+    if (mobile.matches) { event.preventDefault(); setAdminView(link.dataset.adminView,true); }
+}));
+function syncMobile() {
+    setAdminView(mobileView);
+    document.querySelectorAll('.song-more,.share-options').forEach(details => { details.open = !mobile.matches; });
+}
+mobile.addEventListener('change',syncMobile);
+syncMobile();
 const date = value => value ? new Date(value).toLocaleString() : 'None';
 const el = (tag, text, className) => {
     const node = document.createElement(tag);
@@ -12,7 +36,11 @@ const el = (tag, text, className) => {
     if (className) node.className = className;
     return node;
 };
-function status(message, error = false) { $('admin-status').textContent = message; $('admin-status').classList.toggle('error', error); }
+function status(message, error = false) {
+    clearTimeout(statusTimer);
+    $('admin-status').textContent = message; $('admin-status').classList.toggle('error', error);
+    if (mobile.matches && message && !message.includes('…')) statusTimer = setTimeout(() => { $('admin-status').textContent = ''; }, error ? 12000 : 6500);
+}
 async function run(button, task) {
     if (busy) return;
     busy = true; button.disabled = true;
@@ -44,6 +72,7 @@ $('manage-form').onsubmit = event => {
 function clearPrivateUI() {
     $('admin-preview').pause(); $('admin-preview').removeAttribute('src'); $('admin-preview').load();
     $('admin-preview').hidden = true; $('preview-title').textContent = '';
+    document.body.classList.remove('signed-in');
     $('dashboard').hidden = true; $('login-panel').hidden = false; $('signout').hidden = true;
     $('created-link').hidden = true; $('share-url').value = ''; $('open-link').removeAttribute('href');
     for (const id of ['song-choices','share-list','song-manager','activity-summary','version-activity']) $(id).replaceChildren();
@@ -105,21 +134,29 @@ function renderSongs() {
         card.append(el('p', `${shares.length} shared ${shares.length === 1 ? 'selection' : 'selections'} reference this song.`, 'muted'));
         const controls = el('div', undefined, 'row-actions');
         if (track.deleted_at) controls.append(action('Retry audio cleanup', () => deleteTrack(track), true));
-        else controls.append(
-            action('Preview', async () => {
-                const { url } = await request('preview', { id: track.id }, true);
-                $('admin-preview').src = url; $('admin-preview').hidden = false; $('preview-title').textContent = `Previewing: ${track.title} / ${current?.label || 'Current mix'}`;
-                await $('admin-preview').play();
-            }),
-            action('Edit details', () => editTrack(track)),
-            action('Replace audio', () => replaceAudio(track)),
-            action('Version history', () => versionHistory(track)),
-            action(track.archived_at ? 'Unarchive' : 'Archive', async () => {
-                await request('archive-track', { id: track.id, archived: !track.archived_at }, true);
-                await load(); status(track.archived_at ? 'Song returned to the active library.' : 'Song archived. Existing sharing links still work.');
-            }),
-            action('Delete permanently', () => deleteTrack(track), true)
-        );
+        else {
+            controls.append(
+                action('Preview', async () => {
+                    const { url } = await request('preview', { id: track.id }, true);
+                    $('admin-preview').src = url; $('admin-preview').hidden = false; $('preview-title').textContent = `Previewing: ${track.title} / ${current?.label || 'Current mix'}`;
+                    await $('admin-preview').play();
+                }),
+                action('Replace audio', () => replaceAudio(track))
+            );
+            const more = el('details', undefined, 'song-more'); more.open = !mobile.matches;
+            more.append(el('summary', 'More options'));
+            const secondary = el('div', undefined, 'row-actions secondary-actions');
+            secondary.append(
+                action('Edit details', () => editTrack(track)),
+                action('Version history', () => versionHistory(track)),
+                action(track.archived_at ? 'Unarchive' : 'Archive', async () => {
+                    await request('archive-track', { id: track.id, archived: !track.archived_at }, true);
+                    await load(); status(track.archived_at ? 'Song returned to the active library.' : 'Song archived. Existing sharing links still work.');
+                }),
+                action('Delete permanently', () => deleteTrack(track), true)
+            );
+            more.append(secondary); controls.append(more);
+        }
         card.append(controls); root.append(card);
     });
 }
@@ -184,6 +221,8 @@ function shareState(share) { return share.revoked_at ? 'Revoked' : share.expires
 function showLink(token) {
     const url = new URL('../', location.href); url.hash = token;
     $('share-url').value = url.href; $('open-link').href = url.href; $('created-link').hidden = false;
+    $('send-link').hidden = !navigator.share;
+    setAdminView('create');
 }
 function renderShares() {
     const root = $('share-list'); root.replaceChildren(); const query = $('share-search').value.trim().toLowerCase();
@@ -254,6 +293,7 @@ $('login-form').onsubmit = event => {
         const { error } = await client.auth.signInWithPassword({ email: $('email').value.trim(), password: $('password').value }); $('password').value = '';
         if (error) throw new Error('Sign in failed. Check your email and password.');
         try { await load(); } catch (error) { await client.auth.signOut(); clearPrivateUI(); throw error; }
+        document.body.classList.add('signed-in'); setAdminView('songs');
         $('login-panel').hidden = true; $('dashboard').hidden = false; $('signout').hidden = false; status('');
     });
 };
@@ -272,9 +312,14 @@ $('share-form').onsubmit = event => {
         if (!trackIds.length) throw new Error('Select at least one song.');
         status('Creating your listening link…');
         const { token } = await request('create-share', { title: $('selection-title').value.trim(), trackIds, expiresAt: expiration($('expires-at').value), recipientLabel: $('recipient-label').value.trim(), message: $('share-message').value.trim() }, true);
-        showLink(token); status('Your private link is ready. Copy it below.');
+        showLink(token); $('created-link').scrollIntoView({ behavior:'smooth', block:'center' }); status('Your private link is ready. Copy it below.');
         try { await load(); } catch { status('Your link is ready. Save it, then refresh the selections.'); }
     });
+};
+$('send-link').onclick = async () => {
+    if (!navigator.share || !$('share-url').value) return;
+    try { await navigator.share({ title: 'Private listening — Dirtyfreqs Media', url: $('share-url').value }); }
+    catch (error) { if (error.name !== 'AbortError') status('Sharing is unavailable here. Use Copy link instead.', true); }
 };
 $('copy-link').onclick = async () => {
     try { await navigator.clipboard.writeText($('share-url').value); status('Private link copied.'); }

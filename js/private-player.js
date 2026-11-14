@@ -48,14 +48,16 @@ function attachListening(track) {
     anchorPosition = 0; anchorTime = performance.now();
 }
 function render() {
+    const focused = document.activeElement?.closest('.private-track')?.dataset.id;
     $('private-tracks').replaceChildren();
     tracks.forEach((track, index) => {
         const button = document.createElement('button');
+        button.dataset.id = track.id;
         button.className = `private-track${current === track.id ? ' active' : ''}`;
         button.disabled = expired || pending;
         button.setAttribute('aria-label', `${current === track.id && !audio.paused ? 'Pause' : 'Play'} ${track.title}`);
         const icon = document.createElement('span');
-        icon.textContent = current === track.id && !audio.paused ? 'Ⅱ' : '▶';
+        icon.textContent = current === track.id && !audio.paused ? 'Ⅱ' : current === track.id ? '▶' : String(index+1).padStart(2,'0');
         icon.setAttribute('aria-hidden', 'true');
         const info = document.createElement('span');
         const title = document.createElement('strong'); title.textContent = track.title;
@@ -66,7 +68,41 @@ function render() {
         button.onclick = () => select(track.id, true);
         $('private-tracks').append(button);
     });
+    if (focused) Array.from($('private-tracks').children).find(row => row.dataset.id === focused)?.focus({ preventScroll:true });
+    updateControls();
 }
+const format = seconds => Number.isFinite(seconds) ? `${Math.floor(seconds/60)}:${String(Math.floor(seconds%60)).padStart(2,'0')}` : '0:00';
+function updateControls() {
+    const index = tracks.findIndex(track => track.id === current);
+    const playing = !audio.paused && !audio.ended;
+    $('listen-play').classList.toggle('is-playing',playing);
+    $('listen-play').setAttribute('aria-label',playing ? 'Pause song' : 'Play song');
+    $('listen-play').disabled = expired || pending || index<0;
+    $('listen-previous').disabled = expired || pending || index<=0;
+    $('listen-next').disabled = expired || pending || index<0 || index>=tracks.length-1;
+    $('custom-controls').classList.toggle('single-song',tracks.length===1);
+    $('queue-position').textContent = tracks.length===1 ? 'ONE SONG. JUST FOR YOU.' : `TRACK ${String(index+1).padStart(2,'0')} OF ${String(tracks.length).padStart(2,'0')}`;
+    $('listen-elapsed').textContent = format(audio.currentTime);
+    $('listen-duration').textContent = format(audio.duration);
+    const duration = audio.duration;
+    const position = Number.isFinite(duration) && duration>0 ? Math.min(100,audio.currentTime/duration*100) : 0;
+    $('listen-seek').disabled = !Number.isFinite(duration) || duration<=0 || expired;
+    $('listen-seek').value = position;
+    $('listen-seek').style.setProperty('--progress',`${position}%`);
+    $('listen-seek').setAttribute('aria-valuetext',`${format(audio.currentTime)} of ${format(duration)}`);
+}
+$('listen-play').onclick = () => { if (current) select(current,true); };
+$('listen-previous').onclick = () => { const index=tracks.findIndex(t=>t.id===current); if(index>0) select(tracks[index-1].id,true); };
+$('listen-next').onclick = () => { const index=tracks.findIndex(t=>t.id===current); if(index>=0 && tracks[index+1]) select(tracks[index+1].id,true); };
+$('listen-seek').oninput = event => {
+    if (Number.isFinite(audio.duration) && audio.duration>0) audio.currentTime = Number(event.target.value)/100*audio.duration;
+    updateControls();
+};
+for (const event of ['loadedmetadata','durationchange','timeupdate','emptied']) audio.addEventListener(event,updateControls);
+// Retain native audio controls as a fallback until the custom controls are initialized.
+$('custom-controls').hidden = false;
+audio.controls = false;
+audio.classList.add('enhanced-audio');
 function unavailable(message) {
     sample(); report(true); isPlaying = false;
     expired = true;
@@ -82,6 +118,8 @@ async function resolve() {
     $('share-title').textContent = result.title;
     $('share-personal-message').textContent = result.message || '';
     $('share-personal-message').hidden = !result.message;
+    document.body.classList.toggle('has-playlist',tracks.length>1);
+    $('queue-title').textContent = tracks.length===1 ? 'Your song' : 'The selection';
     $('track-count').textContent = `${tracks.length} ${tracks.length === 1 ? 'SONG' : 'SONGS'}`;
     $('expiry').textContent = result.expiresAt ? `Available until ${new Date(result.expiresAt).toLocaleString()}` : '';
     clearTimeout(expiryTimer);
@@ -99,7 +137,7 @@ async function select(id, play) {
     if (pending || expired) return;
     if (current === id && audio.src && play) {
         if (!audio.paused) { audio.pause(); return; }
-        try { await audio.play(); } catch { $('playback-status').textContent = 'Press play on the audio controls to listen.'; }
+        try { await audio.play(); } catch { $('playback-status').textContent = 'Tap the play button to listen.'; }
         return;
     }
     pending = true; render();
@@ -112,10 +150,11 @@ async function select(id, play) {
         sample(); report(); isPlaying = false; activeListen = null;
         current = id; audio.src = track.url; attachListening(track);
         $('now-title').textContent = track.title;
+        $('now-subtitle').textContent = track.subtitle || 'Jason Robinson';
         $('private-player').hidden = false;
         $('playback-status').textContent = '';
         if (play) {
-            try { await audio.play(); } catch { $('playback-status').textContent = 'Press play on the audio controls to listen.'; }
+            try { await audio.play(); } catch { $('playback-status').textContent = 'Tap the play button to listen.'; }
         }
     } catch (error) { unavailable(error.message); }
     finally { pending = false; render(); }

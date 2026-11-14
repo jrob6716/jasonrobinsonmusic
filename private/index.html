@@ -1,17 +1,26 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#0a0a0a"><meta name="robots" content="noindex,nofollow,noarchive"><meta name="referrer" content="no-referrer">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta name="theme-color" content="#0a0a0a"><meta name="robots" content="noindex,nofollow,noarchive"><meta name="referrer" content="no-referrer">
 <title>Private listening — Dirtyfreqs Media</title>
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="../css/catalog.css"><link rel="stylesheet" href="../css/private.css?v=2">
-<script defer src="../js/private-config.js"></script><script type="module" src="../js/private-player.js?v=2"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="../css/catalog.css"><link rel="stylesheet" href="../css/private.css?v=3">
+<script defer src="../js/private-config.js"></script><script type="module" src="../js/private-player.js?v=3"></script>
 </head>
 <body class="private-page">
-<header class="topbar"><a class="brand" href="../"><span>DF</span> DIRTYFREQS MEDIA</a><span class="private-badge">● PRIVATE LISTENING</span></header>
-<main>
-<section class="private-intro"><div><p class="eyebrow">JASON ROBINSON / SHARED WITH YOU</p><h1>FOR YOUR<br><span>EARS ONLY.</span></h1><p class="intro-copy">A private selection. A closer listen.</p></div><div class="private-art" aria-hidden="true"><span>DIRTYFREQS / PRIVATE PRESS</span><div class="record"><b>DF</b></div><small>PRODUCED BY JASON ROBINSON</small></div></section>
-<section class="listening-room" aria-label="Private music"><p id="room-status" role="status" aria-live="polite">Opening your listening link…</p><div id="room" hidden><div class="room-heading"><div><p class="eyebrow">YOUR PRIVATE SELECTION</p><h2 id="share-title"></h2></div><span id="track-count" class="private-badge"></span></div><p id="share-personal-message" class="personal-message" hidden></p><p id="expiry" class="muted"></p><div id="private-tracks"></div><p class="muted listening-note">Shared for your ears. Please keep this link private. Basic page visits and playback progress are shared with the sender. No account or identifying tracking cookie is required.</p></div></section>
-<footer>DIRTYFREQS MEDIA <span>INDEPENDENT MUSIC / LOS ANGELES</span></footer>
-</main>
-<section id="private-player" class="private-transport" aria-label="Music player" hidden><div class="now"><div class="mini-art" aria-hidden="true">DF</div><div><p class="eyebrow">NOW SELECTED</p><h3 id="now-title"></h3></div></div><div class="private-audio-wrap"><audio id="private-audio" controls preload="none" controlslist="nodownload" aria-label="Private song player"></audio><p id="playback-status" role="status" aria-live="polite"></p></div></section>
+<header class="topbar"><a class="brand" href="../"><span>DF</span> DIRTYFREQS MEDIA</a><span class="private-badge"><i aria-hidden="true"></i> PRIVATE LISTENING</span></header>
+<main class="listener-main">
+<div class="listener-welcome"><p class="eyebrow">JASON ROBINSON / SHARED WITH YOU</p><p>A closer listen.</p></div>
+<section class="listening-room" aria-label="Private music"><p id="room-status" role="status" aria-live="polite">Opening your listening link…</p><div id="room" hidden>
+<div class="listening-card">
+<div class="session-art" aria-hidden="true"><span class="art-edition">DF / PRIVATE PRESS</span><div class="record"><b>DF<span>●</span></b></div><span class="art-caption">INDEPENDENT SOUND.<br>PERSONALLY SELECTED.</span><span class="art-number">VOL.<br>01</span></div>
+<div class="session-content"><div class="room-heading"><p class="eyebrow">YOUR PRIVATE SELECTION</p><span id="track-count" class="private-badge"></span></div><h1 id="share-title"></h1><p id="share-personal-message" class="personal-message" hidden></p><p id="expiry" class="muted"></p>
+<section id="private-player" class="private-transport" aria-label="Music player" hidden>
+<div class="selected-song"><span class="now-label">NOW SELECTED</span><h2 id="now-title"></h2><p id="now-subtitle"></p></div>
+<div id="custom-controls" hidden><div class="listen-timeline"><label class="sr-only" for="listen-seek">Seek within song</label><input id="listen-seek" type="range" min="0" max="100" value="0" step="0.1" disabled><div class="listen-times"><span id="listen-elapsed">0:00</span><span id="listen-duration">0:00</span></div></div>
+<div class="listen-buttons"><button id="listen-previous" class="skip-button" aria-label="Previous song"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 5v14M19 5l-10 7 10 7Z"/></svg></button><button id="listen-play" class="listen-play" aria-label="Play song"><svg viewBox="0 0 24 24" aria-hidden="true"><path class="play-shape" d="m9 5 11 7-11 7Z"/><path class="pause-shape" d="M8 5v14M16 5v14"/></svg></button><button id="listen-next" class="skip-button" aria-label="Next song"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 5v14M5 5l10 7-10 7Z"/></svg></button></div><p id="queue-position" class="queue-position"></p></div>
+<audio id="private-audio" controls preload="metadata" controlslist="nodownload" aria-label="Private song player"></audio><p id="playback-status" role="status" aria-live="polite"></p>
+</section></div></div>
+<div class="queue-heading"><h2 id="queue-title">The selection</h2><span>PRESS PLAY. STAY A WHILE.</span></div><div id="private-tracks" aria-labelledby="queue-title"></div>
+<details class="listener-details"><summary>Privacy & listening activity <span aria-hidden="true">＋</span></summary><p class="muted listening-note">Please keep this link private. Basic page visits and playback progress are shared with the sender. No account or identifying tracking cookie is required.</p></details>
+</div></section><footer>DIRTYFREQS MEDIA <span>INDEPENDENT MUSIC / LOS ANGELES</span></footer></main>
 </body></html>

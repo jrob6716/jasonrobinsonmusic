@@ -129,3 +129,21 @@ Validation: `npm ci`, `npx playwright install chromium`, `npm test`, and `npm ru
 Database tests use an isolated PostgreSQL-compatible PGlite instance. Browser tests use mock
 API/storage responses and never mutate a Supabase project. Deno can also check with
 `deno check --node-modules-dir=none supabase/functions/private-music/index.ts`.
+
+## Mobile interface
+
+At widths up to 700px, the admin opens on Songs and uses a bottom navigation bar for
+Songs, Links, Create link, Upload and Activity. Only the selected section is shown;
+changing sections preserves form entries. Extra song actions live under More options,
+and optional share fields collapse behind a disclosure. Dialogs become bottom sheets,
+form text uses 16px to avoid mobile input zoom, and safe-area padding keeps controls
+clear of phone navigation areas. New/retrieved links expose the native share sheet
+where supported, with Copy link available everywhere.
+
+The private listener uses one responsive artwork/player card with play/pause, seeking,
+and previous/next controls. A single-song selection omits the redundant queue; playlists
+show selectable song rows. Custom controls operate the same audio element and retain
+existing access validation and listening metrics. Layout tests cover 320–1440px and run
+in Chromium and WebKit (`npx playwright install chromium webkit`, then
+`npm run test:browser` and `TEST_BROWSER=webkit npm run test:browser`). These browser-engine
+checks do not replace testing on a physical phone.
