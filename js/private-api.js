@@ -5,7 +5,7 @@ export const configured = Boolean(config.supabaseUrl && config.supabaseKey);
 export const client = configured ? createClient(config.supabaseUrl, config.supabaseKey, {
     auth: { persistSession: false, autoRefreshToken: true, detectSessionInUrl: false }
 }) : null;
-export async function request(action, values = {}, admin = false) {
+export async function request(action, values = {}, admin = false, keepalive = false) {
     if (!configured) throw new Error('Private music is not connected yet. Complete the backend setup to enable listening and sharing.');
     let authorization;
     if (admin) {
@@ -14,7 +14,7 @@ export async function request(action, values = {}, admin = false) {
         authorization = `Bearer ${session.access_token}`;
     }
     const response = await fetch(`${config.supabaseUrl.replace(/\/$/, '')}/functions/v1/private-music`, {
-        method: 'POST', cache: 'no-store', headers: {
+        method: 'POST', cache: 'no-store', keepalive, headers: {
             'Content-Type': 'application/json', apikey: config.supabaseKey,
             ...(authorization ? { Authorization: authorization } : {})
         }, body: JSON.stringify({ ...values, action })

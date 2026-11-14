@@ -1,4 +1,5 @@
 import { request } from './private-api.js';
+import { mergeRanges, heardSeconds, listenDelta } from './private-listening.js';
 const $ = id => document.getElementById(id);
 const audio = $('private-audio');
 const token = location.hash.slice(1);
@@ -7,6 +8,45 @@ let current = null;
 let pending = false;
 let expired = false;
 let expiryTimer;
+const sessionId = crypto.randomUUID();
+let visitPromise;
+function ensureVisit() {
+    if (!visitPromise) visitPromise = request('visit',{ token,sessionId }).catch(error => { visitPromise = null; throw error; });
+    return visitPromise;
+}
+const listens = new Map();
+let activeListen;
+let anchorTime = 0;
+let anchorPosition = 0;
+let isPlaying = false;
+let listenQueue = Promise.resolve();
+function sample() {
+    const now = performance.now();
+    if (activeListen && isPlaying) activeListen.seconds += listenDelta(anchorPosition, audio.currentTime, (now-anchorTime)/1000, audio.playbackRate);
+    anchorTime = now; anchorPosition = audio.currentTime;
+    if (activeListen) {
+        const ranges = [];
+        for (let i=0;i<audio.played.length;i++) ranges.push([audio.played.start(i),audio.played.end(i)]);
+        activeListen.ranges = mergeRanges([...activeListen.ranges,...ranges]);
+    }
+}
+function report(keepalive = false) {
+    if (!activeListen?.started) return;
+    const item = activeListen;
+    const values = { token,sessionId,trackId:item.trackId,versionId:item.versionId,seconds:item.seconds,coverage:heardSeconds(item.ranges),duration:Number.isFinite(audio.duration)?audio.duration:0 };
+    item.lastReport = performance.now();
+    // Metrics must never interrupt playback; duplicate/retried cumulative reports are idempotent.
+    const send = async () => { await ensureVisit(); await request('listen',values,false,keepalive); };
+    if (keepalive) { send().catch(() => {}); return; }
+    listenQueue = listenQueue.catch(() => {}).then(send).catch(() => {});
+}
+function attachListening(track) {
+    activeListen = null; isPlaying = false;
+    if (!track.versionId) return;
+    if (!listens.has(track.versionId)) listens.set(track.versionId,{ trackId:track.id,versionId:track.versionId,seconds:0,ranges:[],started:false,lastReport:0,milestone:0 });
+    activeListen = listens.get(track.versionId);
+    anchorPosition = 0; anchorTime = performance.now();
+}
 function render() {
     $('private-tracks').replaceChildren();
     tracks.forEach((track, index) => {
@@ -28,6 +68,7 @@ function render() {
     });
 }
 function unavailable(message) {
+    sample(); report(true); isPlaying = false;
     expired = true;
     clearTimeout(expiryTimer);
     audio.pause(); audio.removeAttribute('src'); audio.load();
@@ -39,6 +80,8 @@ async function resolve() {
     tracks = result.tracks;
     if (!tracks.length) throw new Error('There are no songs in this selection.');
     $('share-title').textContent = result.title;
+    $('share-personal-message').textContent = result.message || '';
+    $('share-personal-message').hidden = !result.message;
     $('track-count').textContent = `${tracks.length} ${tracks.length === 1 ? 'SONG' : 'SONGS'}`;
     $('expiry').textContent = result.expiresAt ? `Available until ${new Date(result.expiresAt).toLocaleString()}` : '';
     clearTimeout(expiryTimer);
@@ -66,7 +109,8 @@ async function select(id, play) {
         await resolve();
         const track = tracks.find(t => t.id === id);
         if (!track) throw new Error('This song is unavailable.');
-        current = id; audio.src = track.url;
+        sample(); report(); isPlaying = false; activeListen = null;
+        current = id; audio.src = track.url; attachListening(track);
         $('now-title').textContent = track.title;
         $('private-player').hidden = false;
         $('playback-status').textContent = '';
@@ -77,7 +121,21 @@ async function select(id, play) {
     finally { pending = false; render(); }
 }
 audio.addEventListener('play', render);
-audio.addEventListener('pause', render);
+audio.addEventListener('playing', () => {
+    anchorTime = performance.now(); anchorPosition = audio.currentTime; isPlaying = true;
+    if (activeListen && !activeListen.started) { activeListen.started = true; report(); }
+    render();
+});
+audio.addEventListener('timeupdate', () => {
+    sample();
+    if (!activeListen?.started) return;
+    const progress = audio.duration > 0 ? heardSeconds(activeListen.ranges)/audio.duration : 0;
+    const milestone = [0.25,0.5,0.75,0.9].filter(value => progress >= value).length;
+    if (performance.now()-activeListen.lastReport>=15000 || milestone>activeListen.milestone) { activeListen.milestone=milestone; report(); }
+});
+for (const event of ['pause','waiting','seeking','ended']) audio.addEventListener(event, () => { sample(); isPlaying = false; report(); render(); });
+audio.addEventListener('ratechange', () => { anchorTime=performance.now();anchorPosition=audio.currentTime; });
+window.addEventListener('pagehide', () => { sample(); report(true); });
 audio.addEventListener('ended', () => {
     const next = tracks[tracks.findIndex(t => t.id === current) + 1];
     if (next) select(next.id, true);
@@ -92,11 +150,13 @@ audio.addEventListener('error', () => {
 window.addEventListener('hashchange', () => location.reload());
 // Revalidate access when returning to an idle page.
 document.addEventListener('visibilitychange', () => {
+    if (document.hidden) { sample(); report(true); }
     if (!document.hidden && !expired && tracks.length) resolve().then(render).catch(error => unavailable(error.message));
 });
 try {
     if (!/^[a-f0-9]{64}$/.test(token)) throw new Error('Open the full private link you were sent to listen.');
     await resolve();
+    ensureVisit().catch(() => {});
     $('room-status').hidden = true; $('room').hidden = false;
     // Prepare the first track without autoplay.
     await select(tracks[0].id, false);

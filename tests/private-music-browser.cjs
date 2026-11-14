@@ -1,0 +1,60 @@
+const {chromium}=require('playwright');
+const assert=require('node:assert/strict');const http=require('node:http');const fs=require('node:fs');const path=require('node:path');
+function wav(seconds=3){const b=Buffer.alloc(44+16000*seconds);b.write('RIFF');b.writeUInt32LE(b.length-8,4);b.write('WAVEfmt ',8);b.writeUInt32LE(16,16);b.writeUInt16LE(1,20);b.writeUInt16LE(1,22);b.writeUInt32LE(8000,24);b.writeUInt32LE(16000,28);b.writeUInt16LE(2,32);b.writeUInt16LE(16,34);b.write('data',36);b.writeUInt32LE(b.length-44,40);return b;}
+(async()=>{
+const server=http.createServer((req,res)=>{let file=path.join(process.cwd(),new URL(req.url,'http://test').pathname);if(fs.existsSync(file)&&fs.statSync(file).isDirectory())file=path.join(file,'index.html');try{res.setHeader('Content-Type',file.endsWith('.js')?'application/javascript':file.endsWith('.css')?'text/css':'text/html');res.end(fs.readFileSync(file));}catch{res.statusCode=404;res.end();}});
+await new Promise(r=>server.listen(0,'127.0.0.1',r));const base=`http://127.0.0.1:${server.address().port}`;
+const browser=await chromium.launch({headless:true});
+try{
+const page=await browser.newPage();const errors=[];page.on('pageerror',e=>errors.push(e.message));
+const id='8b8a1aa1-1111-4111-8111-111111111111',id2='8b8a1aa1-1111-4111-8111-222222222222';
+let tracks=[{id,title:'Private demo',subtitle:'Jason Robinson',created_at:new Date().toISOString(),current_version_id:'version-original'},{id:id2,title:'Second song',subtitle:'Demo',created_at:new Date().toISOString(),current_version_id:'version-second'}];
+let versions=tracks.map(t=>({id:t.current_version_id,track_id:t.id,label:'Original upload',created_at:new Date().toISOString()}));
+let shares=[{id:'share-original',title:'Original link',recipient_label:'Alex',message:'A mix for you',track_ids:[id],created_at:new Date().toISOString(),canCopy:false}];let events=[];let token='a'.repeat(64);let uploadCount=0;let revoked=false;
+const activity=()=>({shares:shares.map(s=>({id:s.id,opens:3,starts:2,engaged:1,completions:1,last_at:new Date().toISOString()})),versions:versions.map(v=>({...v,starts:2,engaged:1,p25:1,p50:1,p75:1,completions:1,seconds:95}))});
+await page.route('**/js/private-config.js',r=>r.fulfill({contentType:'application/javascript',body:"window.privateMusicConfig={supabaseUrl:'https://test.supabase.co',supabaseKey:'public-key'}"}));
+await page.route('**/sample.wav',r=>r.fulfill({contentType:'audio/wav',body:wav(32)}));
+await page.route('https://test.supabase.co/**',async route=>{
+const req=route.request(),url=req.url();let result;
+if(url.includes('/auth/v1/token'))result={access_token:'session',refresh_token:'refresh',expires_in:3600,token_type:'bearer',user:{id,email:'admin@example.com',aud:'authenticated'}};
+else if(url.includes('/auth/v1/logout'))result={};
+else if(url.includes('/storage/v1/object/upload/sign/'))result={Key:'private-music/uploaded.mp3'};
+else{
+const body=req.postDataJSON();
+switch(body.action){
+case 'list':result={apiVersion:2,tracks,shares,versions,activity:activity()};break;
+case 'upload':{const track=tracks.find(t=>t.id===body.trackId);result={id:track?.id||`new-${++uploadCount}`,versionId:`v-${Date.now()}`,expectedVersion:track?.current_version_id||null,path:'uploaded.mp3',token:'upload-token'};break;}
+case 'save-track':{let track=tracks.find(t=>t.id===body.id);if(track){track.current_version_id=body.versionId;}else{track={id:body.id,title:body.title,subtitle:body.subtitle,current_version_id:body.versionId,created_at:new Date().toISOString()};tracks.push(track);}versions.unshift({id:body.versionId,track_id:track.id,label:body.label,created_at:new Date().toISOString()});result={ok:true};break;}
+case 'edit-track':Object.assign(tracks.find(t=>t.id===body.id),{title:body.title,subtitle:body.subtitle});result={ok:true};break;
+case 'archive-track':tracks.find(t=>t.id===body.id).archived_at=body.archived?new Date().toISOString():null;result={ok:true};break;
+case 'preview':result={url:base+'/sample.wav'};break;
+case 'restore-version':tracks.find(t=>t.id===body.id).current_version_id=body.versionId;result={ok:true};break;
+case 'delete-track':{const track=tracks.find(t=>t.id===body.id);assert.equal(body.confirmTitle,track.title);track.deleted_at=new Date().toISOString();for(const s of shares){if(!s.track_ids.includes(track.id))continue;if(s.track_ids.length===1)s.revoked_at=new Date().toISOString();else s.track_ids=s.track_ids.filter(x=>x!==track.id);}result={ok:true};break;}
+case 'create-share':shares.unshift({id:'new-share',title:body.title,recipient_label:body.recipientLabel,message:body.message,track_ids:body.trackIds,expires_at:body.expiresAt,created_at:new Date().toISOString(),canCopy:true});result={token};break;
+case 'edit-share':Object.assign(shares.find(s=>s.id===body.id),{title:body.title,recipient_label:body.recipientLabel,message:body.message,track_ids:body.trackIds,expires_at:body.expiresAt});result={ok:true};break;
+case 'copy-share':result={token};break;
+case 'revoke':shares.find(s=>s.id===body.id).revoked_at=new Date().toISOString();revoked=true;result={ok:true};break;
+case 'resolve':{if(revoked)return route.fulfill({status:404,contentType:'application/json',body:JSON.stringify({error:'This listening link is unavailable or has expired.'})});const s=shares.find(s=>s.id==='share-original');result={title:s.title,message:s.message,tracks:s.track_ids.map(id=>{const t=tracks.find(t=>t.id===id);return{id:t.id,title:t.title,subtitle:t.subtitle,versionId:t.current_version_id,url:base+'/sample.wav'};}),expiresAt:null};break;}
+case 'visit':case 'listen':events.push(body);result={ok:true};break;
+default:throw Error('Unexpected action '+body.action);
+}
+}
+return route.fulfill({contentType:'application/json',body:JSON.stringify(result)});
+});
+await page.goto(base+'/private/admin/');await page.locator('#email').fill('admin@example.com');await page.locator('#password').fill('password');await page.getByRole('button',{name:'Sign in ↗'}).click();await page.locator('#dashboard').waitFor();
+const card=()=>page.locator('.song-card').filter({has:page.getByRole('heading',{name:'Private demo',exact:true})});
+await card().getByRole('button',{name:'Replace audio'}).click();await page.locator('#version-label').fill('Revised mix');await page.locator('#replacement-file').setInputFiles({name:'new.mp3',mimeType:'audio/mpeg',buffer:Buffer.from('test-audio')});await page.getByRole('button',{name:'Upload replacement'}).click();await page.getByText('Audio replaced. All existing sharing links now load the new mix.').waitFor();
+assert.equal(shares.find(s=>s.id==='share-original').track_ids[0],id);assert.notEqual(tracks[0].current_version_id,'version-original');
+await card().getByRole('button',{name:'Version history'}).click();await page.getByRole('button',{name:'Restore this version'}).click();await page.getByText('Previous audio version restored. Sharing links are unchanged.').waitFor();assert.equal(tracks[0].current_version_id,'version-original');
+await card().getByRole('button',{name:'Edit details'}).click();await page.locator('#edit-subtitle').fill('New details');await page.getByRole('button',{name:'Save changes',exact:true}).click();await page.getByText('Song details updated across existing links.').waitFor();assert.equal(tracks[0].subtitle,'New details');
+await card().getByRole('button',{name:'Archive',exact:true}).click();await page.getByText('Song archived. Existing sharing links still work.').waitFor();assert.equal(await page.locator('#song-choices input').count(),1);await page.locator('#show-archived').check();await card().getByRole('button',{name:'Unarchive'}).click();await page.getByText('Song returned to the active library.').waitFor();
+await page.locator('#recipient-label').fill('Morgan');await page.locator('#share-message').fill('A fresh mix');await page.locator('#selection-title').fill('Pitch selection');for(const checkbox of await page.locator('#song-choices input').all()) await checkbox.check();await page.getByRole('button',{name:'Move Private demo down'}).click();await page.getByRole('button',{name:'Create listening link ↗'}).click();await page.locator('#created-link').waitFor();assert.equal(shares[0].track_ids[0],id2);assert.equal(await page.locator('#share-url').inputValue(),base+'/private/#'+token);
+await page.locator('.share-row').filter({hasText:'Pitch selection'}).getByRole('button',{name:'Edit selection'}).click();await page.locator('#edit-recipient').fill('Morgan — Film');await page.getByRole('button',{name:'Save changes',exact:true}).click();await page.getByText('Selection updated. The sharing link is unchanged.').waitFor();assert.equal(shares[0].recipient_label,'Morgan — Film');
+await page.locator('.share-row').filter({hasText:'Pitch selection'}).getByRole('button',{name:'Get link'}).click();await page.getByText('Link retrieved. Copy it from the link field.').waitFor();assert.equal(await page.locator('#share-url').inputValue(),base+'/private/#'+token);
+await page.setViewportSize({width:1440,height:1000});await page.screenshot({path:'/tmp/dirtyfreqs-private-qa/management-desktop.png',fullPage:true});await page.setViewportSize({width:390,height:844});assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));await page.screenshot({path:'/tmp/dirtyfreqs-private-qa/management-mobile.png',fullPage:true});
+await page.goto(base+'/private/#'+token);await page.locator('#private-player').waitFor();assert.equal(events.filter(e=>e.action==='visit').length,1);await page.getByRole('button',{name:'Play Private demo'}).click();await page.waitForFunction(()=>!document.querySelector('audio').paused);await page.waitForTimeout(600);await page.evaluate(()=>document.querySelector('audio').pause());await page.waitForTimeout(200);assert(events.some(e=>e.action==='listen'));await page.evaluate(()=>{const a=document.querySelector('audio');a.currentTime=31;a.play();});await page.waitForTimeout(400);await page.evaluate(()=>document.querySelector('audio').pause());await page.waitForTimeout(200);assert(events.filter(e=>e.action==='listen').every(e=>e.seconds<5 && e.coverage<5),'seeking does not create false completion');assert.equal(await page.locator('#share-personal-message').textContent(),'A mix for you');assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
+await page.goto(base+'/private/admin/');await page.locator('#email').fill('admin@example.com');await page.locator('#password').fill('password');await page.getByRole('button',{name:'Sign in ↗'}).click();await page.locator('#dashboard').waitFor();
+await card().getByRole('button',{name:'Delete permanently'}).click();await page.locator('#delete-title').fill('wrong title');await page.getByRole('button',{name:'Delete permanently',exact:true}).last().click();await page.locator('#dialog-error').getByText('Type the exact song title to confirm.').waitFor();assert(!tracks[0].deleted_at);await page.locator('#delete-title').fill('Private demo');await page.getByRole('button',{name:'Delete permanently',exact:true}).last().click();await page.getByText('Song and all audio versions deleted. Affected links have been updated.').waitFor();assert(shares.find(s=>s.id==='share-original').revoked_at);assert.deepEqual(shares.find(s=>s.id==='new-share').track_ids,[id2]);assert.deepEqual(errors,[]);
+console.log('PASS browser: replacement preserves links, restore, edit, archive/unarchive, ordered shares, recipient/message edits, retrieve links, desktop/mobile layout, playback analytics, skip exclusion, confirmed playlist-safe delete.');
+}finally{await browser.close();server.close();}
+})().catch(e=>{console.error(e);process.exit(1)});

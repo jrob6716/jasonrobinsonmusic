@@ -1,0 +1,13 @@
+{
+  "name": "dirtyfreqs-website",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test tests/private-listening.test.js && node tests/private-music-db.cjs && deno test --node-modules-dir=none --allow-env --allow-net supabase/functions/private-music/index.test.ts",
+    "test:browser": "node tests/private-music-browser.cjs"
+  },
+  "devDependencies": {
+    "@electric-sql/pglite": "0.5.16",
+    "playwright": "1.65.1"
+  }
+}
